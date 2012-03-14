@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<script src="../../build/aui/aui.js" type="text/javascript"></script>
+
+	<link rel="stylesheet" href="../../build/aui-skin-classic/css/aui-skin-classic-all-min.css" type="text/css" media="screen" />
+
+	<style type="text/css" media="screen">
+		body {
+			font-size: 12px;
+		}
+
+		#wrapper {
+			padding: 10px;
+		}
+
+		#container {
+			width: 200px;
+		}
+
+		.header {
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			color: #222;
+			cursor: pointer;
+			display: block;
+			font-size: 13px;
+			font-weight: normal;
+			line-height: 30px;
+			margin: 0;
+			padding: 2px 0;
+			position: relative;
+		}
+
+		.header:hover {
+			background-color: #EEE;
+		}
+
+		.header .aui-calendar-list-item-arrow {
+			display: block;
+			top: 11px;
+		}
+
+		.content {
+			margin-left: 8px;
+		}
+
+		.text {
+			vertical-align: middle;
+		}
+
+		.arrow {
+			background: url(../../build/aui-skin-classic/images/icon_sprite.png) -34px -18px;
+			display: inline-block;
+			height: 12px;
+			vertical-align: middle;
+			width: 12px;
+		}
+
+		.aui-toggler-header-expanded .arrow {
+			background-position: -66px -18px;
+		}
+	</style>
+</head>
+
+<body>
+
+<div id="wrapper">
+	<h1>Alloy - Simple Menu</h1>
+
+	<div id="container">
+		<h2 class="header aui-toggler-header-expanded">
+			<span class="arrow"></span>
+			<span class="text">My calendars</span>
+			<a href="#" class="aui-calendar-list-item-arrow section-arrow"></a>
+		</h2>
+		<div id="calendarList1" class="content"></div>
+
+		<h2 class="header aui-toggler-header-expanded">
+			<span class="arrow"></span>
+			<span class="text">Other calendars</span>
+			<a href="#" class="aui-calendar-list-item-arrow section-arrow"></a>
+		</h2>
+		<div class="content"></div>
+	</div>
+
+	<div id="scheduler1">
+		<div id="schedulerViewDay"></div>
+	</div>
+	
+</div>
+
+<script type="text/javascript" charset="utf-8">
+
+AUI().ready(
+	'aui-calendar-list',
+	'aui-scheduler',
+	'aui-simple-menu',
+	'aui-toggler',
+	'gallery-overlay-extras',
+	function(A) {
+		var calendarList = new A.CalendarList(
+			{
+				boundingBox: '#calendarList1',
+				calendars: [
+					new A.SchedulerCalendar({
+						name: 'Eduardo',
+						events: [
+							{
+								content: 'dudu 1',
+								startDate: new Date(2010, 10, 27)
+							}
+						]
+					}),
+					new A.SchedulerCalendar({
+						name: 'John',
+						visible: false,
+						events: [
+							{
+								content: 'john 1',
+								startDate: new Date(2010, 10, 27, 7)
+							},
+							{
+								startDate: new Date(2010, 10, 27, 6),
+								content: 'john 2'
+							}
+						]
+					}),
+					new A.SchedulerCalendar({
+						name: 'Jack',
+						visible: true,
+						events: [
+							{
+								content: 'jack 1',
+								startDate: new Date(2010, 10, 27, 5)
+							},
+							{
+								startDate: new Date(2010, 10, 27, 12),
+								content: 'jack 2'
+							}
+						]
+					})
+				],
+				simpleMenu: {
+					items: [
+						{ id: 'm1', caption: 'Display only this Calendar', fn: function(event) { this.set('visible', false); } },
+						{ id: 'm2', caption: 'Calendar settings', fn: function() { this.set('visible', false); } },
+						{ id: 'm3', caption: 'Create event on this calendar', fn: function() { this.set('visible', false); } },
+						{ id: 'm4', caption: 'Share this calendar', fn: function() { this.set('visible', false); } },
+						{ id: 'm5', caption: 'Notifications', fn: function() { this.set('visible', false); } },
+						{ id: 'm6', caption: '-', fn: function() { this.set('visible', false); } },
+						{ id: 'm7', caption: 'Color picker', fn: function() { this.set('visible', false); } }
+					]
+				}
+			}
+		).render();
+
+		var simpleMenu = new A.SimpleMenu(
+			{
+				align: {
+					points: [ A.WidgetPositionAlign.TL, A.WidgetPositionAlign.BL ]
+				},
+				items: [
+					{ id: 'm1', caption: 'Create new Calendar', fn: function(event) { this.set('visible', false); } },
+					{ id: 'm2', caption: 'Settings', fn: function(event) { this.set('visible', false); } },
+				],
+				// hiddenItems: ['m3'],
+				visible: false,
+				width: 290,
+				zIndex: 500
+			}
+		).render();
+
+		A.one('#container').delegate('click', function(event) {
+			var target = event.currentTarget;
+
+			var visible = simpleMenu.get('align.node') !== target || !simpleMenu.get('visible');
+
+			simpleMenu.setAttrs({
+				'align.node': target,
+				visible: visible
+			});
+
+			event.stopImmediatePropagation();
+		}, '.section-arrow');
+
+		A.one(document).on('click', function() {
+			simpleMenu.set('visible', false);
+		});
+
+		var toggler = new A.TogglerDelegate({
+			container: '#container',
+			content: '.content',
+			header: '.header'
+		});
+
+		var view11 = new A.SchedulerDayView({
+			boundingBox: '#schedulerViewDay',
+		});
+
+		var scheduler = new A.Scheduler({
+			boundingBox: '#scheduler1',
+			firstDayOfWeek: 1,
+			events: calendarList.get('calendars'),
+			views: [view11],
+			currentDate: new Date(2010, 10, 27)
+		})
+		.render();
+	}
+);
+
+</script>
+
+</body>
+</html>
