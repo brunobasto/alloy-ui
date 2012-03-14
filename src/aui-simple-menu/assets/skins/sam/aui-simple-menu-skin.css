@@ -1,0 +1,12 @@
+.aui-simple-menu-content {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	margin: 0;
+	outline: medium none;
+	padding: 6px 0;
+}
+
+.aui-simple-menu-item {
+	list-style-type: none;
+}
