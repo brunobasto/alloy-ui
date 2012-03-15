@@ -3691,6 +3691,7 @@ var SchedulerCalendar = A.Component.create({
 		initializer: function() {
 			var instance = this;
 
+			instance.after('colorChange', instance._afterColorChange);
 			instance.after('eventsChange', instance._afterEventsChange);
 			instance.on('visibleChange', instance._onVisibleChange);
 
@@ -3709,6 +3710,12 @@ var SchedulerCalendar = A.Component.create({
 			A.Array.each(events || instance.get(EVENTS), function(evt, i) {
 				evt.set(COLOR, instance.get(COLOR));
 			});
+		},
+
+		_afterColorChange: function(event) {
+			var instance = this;
+
+			instance.syncEventsColor(instance.get(EVENTS));
 		},
 
 		_afterEventsChange: function(event) {
@@ -3744,5 +3751,5 @@ A.SchedulerCalendar = SchedulerCalendar;
 }, '@VERSION@' ,{requires:['aui-scheduler-event'], skinnable:true});
 
 
-AUI.add('aui-scheduler', function(A){}, '@VERSION@' ,{use:['aui-scheduler-base','aui-scheduler-view','aui-scheduler-event','aui-scheduler-calendar'], skinnable:true});
+AUI.add('aui-scheduler', function(A){}, '@VERSION@' ,{skinnable:true, use:['aui-scheduler-base','aui-scheduler-view','aui-scheduler-event','aui-scheduler-calendar']});
 
