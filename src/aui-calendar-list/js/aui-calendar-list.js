@@ -105,7 +105,7 @@ var CalendarList = A.Component.create(
 				var node = instance._getCalendarNode(calendar);
 				var colorNode = node.one(_DOT + CSS_CALENDAR_LIST_ITEM_COLOR);
 
-				colorNode.removeAttribute(STYLE);
+				colorNode.setAttribute(STYLE, _EMPTY_STR);
 			},
 
 			_getCalendarByNode: function(node) {
