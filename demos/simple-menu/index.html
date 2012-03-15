@@ -96,6 +96,7 @@
 AUI().ready(
 	'aui-calendar-list',
 	'aui-scheduler',
+	'aui-simple-color-picker',
 	'aui-simple-menu',
 	'aui-toggler',
 	'gallery-overlay-extras',
@@ -150,11 +151,33 @@ AUI().ready(
 						{ id: 'm4', caption: 'Share this calendar', fn: function() { this.set('visible', false); } },
 						{ id: 'm5', caption: 'Notifications', fn: function() { this.set('visible', false); } },
 						{ id: 'm6', caption: '-', fn: function() { this.set('visible', false); } },
-						{ id: 'm7', caption: 'Color picker', fn: function() { this.set('visible', false); } }
+						{ id: 'm7', caption: '<div id="colorPicker"></div>', fn: function() {  } }
 					]
 				}
 			}
 		).render();
+
+		var colorPicker = new A.SimpleColorPicker({
+			on: {
+				colorChange: function(event) {
+					calendarList.activeItem.set('color', event.newVal);
+
+					if (calendarList.simpleMenu.get('visible')) {
+						calendarList.simpleMenu.set('visible', false);
+					}
+				}
+			}
+		});
+
+		calendarList.simpleMenu.on({
+			visibleChange: function(event) {
+				if (event.newVal) {
+					colorPicker.render('#colorPicker');
+
+					colorPicker.set('color', calendarList.activeItem.get('color'));
+				}
+			}
+		});
 
 		var simpleMenu = new A.SimpleMenu(
 			{
@@ -199,7 +222,7 @@ AUI().ready(
 			boundingBox: '#schedulerViewDay',
 		});
 
-		var scheduler = new A.Scheduler({
+		window.scheduler = new A.Scheduler({
 			boundingBox: '#scheduler1',
 			firstDayOfWeek: 1,
 			events: calendarList.get('calendars'),
