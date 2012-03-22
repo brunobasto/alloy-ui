@@ -41,6 +41,7 @@ var Lang = A.Lang,
 	ID = 'id',
 	ISO_TIME = 'isoTime',
 	LOCALE = 'locale',
+	NEVER = 'never',
 	NODE = 'node',
 	OVERLAY = 'overlay',
 	PARENT_EVENT = 'parentEvent',
@@ -659,7 +660,7 @@ var SchedulerEvent = A.Component.create({
 
 			instance.get(NODE).toggleClass(
 				CSS_SCHEDULER_EVENT_REPEATER,
-				!!val
+				!!val && val !== A.SchedulerEventRepeat[NEVER]
 			);
 		},
 
