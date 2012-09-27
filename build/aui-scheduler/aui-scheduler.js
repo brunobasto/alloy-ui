@@ -71,6 +71,7 @@ var Lang = A.Lang,
 	VIEW_STACK = 'viewStack',
 	VIEWS = 'views',
 	VIEWS_NODE = 'viewsNode',
+	VISIBLE = 'visible',
 
 	getCN = A.getClassName,
 
@@ -92,11 +93,11 @@ var Lang = A.Lang,
 	TPL_SCHEDULER_CONTROLS = '<div class="'+CSS_SCHEDULER_CONTROLS+'"></div>',
 	TPL_SCHEDULER_VIEW_DATE = '<div class="'+CSS_SCHEDULER_VIEW_DATE+'"></div>',
 	TPL_SCHEDULER_HD = '<div class="'+CSS_SCHEDULER_HD+'"></div>',
-	TPL_SCHEDULER_ICON_NEXT = '<button class="'+[ CSS_ICON, CSS_SCHEDULER_ICON_NEXT ].join(SPACE)+' yui3-button">Next</button>',
-	TPL_SCHEDULER_ICON_PREV = '<button class="'+[ CSS_ICON, CSS_SCHEDULER_ICON_PREV ].join(SPACE)+' yui3-button">Prev</button>',
+	TPL_SCHEDULER_ICON_NEXT = '<button type="button" class="'+[ CSS_ICON, CSS_SCHEDULER_ICON_NEXT ].join(SPACE)+' yui3-button">Next</button>',
+	TPL_SCHEDULER_ICON_PREV = '<button type="button" class="'+[ CSS_ICON, CSS_SCHEDULER_ICON_PREV ].join(SPACE)+' yui3-button">Prev</button>',
 	TPL_SCHEDULER_NAV = '<div class="'+CSS_SCHEDULER_NAV+'"></div>',
-	TPL_SCHEDULER_TODAY = '<button class="'+CSS_SCHEDULER_TODAY+' yui3-button">{today}</button>',
-	TPL_SCHEDULER_VIEW = '<button class="'+[ CSS_SCHEDULER_VIEW, CSS_SCHEDULER_VIEW_ ].join(SPACE)+'{name}" data-view-name="{name}">{label}</button>',
+	TPL_SCHEDULER_TODAY = '<button type="button" class="'+CSS_SCHEDULER_TODAY+' yui3-button">{today}</button>',
+	TPL_SCHEDULER_VIEW = '<button type="button" class="'+[ CSS_SCHEDULER_VIEW, CSS_SCHEDULER_VIEW_ ].join(SPACE)+'{name}" data-view-name="{name}">{label}</button>',
 	TPL_SCHEDULER_VIEWS = '<div class="'+CSS_SCHEDULER_VIEWS+'"></div>';
 
 var SchedulerEventSupport = function() {};
@@ -409,9 +410,10 @@ var SchedulerBase = A.Component.create({
 				var startDate = evt.getClearStartDate();
 				var endDate = evt.getClearEndDate();
 
-				return (DateMath.compare(date, startDate) ||
+				return (evt.get(VISIBLE) &&
+						(DateMath.compare(date, startDate) ||
 						DateMath.compare(date, endDate) ||
-						DateMath.between(date, startDate, endDate));
+						DateMath.between(date, startDate, endDate)));
 			});
 		},
 
@@ -734,7 +736,7 @@ var SchedulerBase = A.Component.create({
 
 A.Scheduler = SchedulerBase;
 
-}, '@VERSION@' ,{requires:['aui-scheduler-view','datasource','button-group'], skinnable:true});
+}, '@VERSION@' ,{skinnable:true, requires:['aui-scheduler-view','datasource','button-group']});
 AUI.add('aui-scheduler-view', function(A) {
 var Lang = A.Lang,
 	isBoolean = Lang.isBoolean,
@@ -1741,7 +1743,7 @@ var SchedulerDayView = A.Component.create({
 			var group = [];
 
 			A.Array.each(events, function(evtCmp) {
-				if (!evt._filtered && evt.intersectHours(evtCmp)) {
+				if (!evt._filtered && evtCmp.get(VISIBLE) && evt.intersectHours(evtCmp)) {
 					group.push(evtCmp);
 				}
 			});
@@ -3520,7 +3522,7 @@ A.mix(A.SchedulerTableViewDD.prototype, {
 
 A.Base.mix(A.SchedulerTableView, [ A.SchedulerTableViewDD ]);
 
-}, '@VERSION@' ,{requires:['aui-scheduler-event','aui-datatype','aui-button-item','dd-drag','dd-delegate','dd-drop','dd-constrain'], skinnable:true});
+}, '@VERSION@' ,{skinnable:true, requires:['aui-scheduler-event','aui-datatype','aui-button-item','dd-drag','dd-delegate','dd-drop','dd-constrain']});
 AUI.add('aui-scheduler-event', function(A) {
 var Lang = A.Lang,
 	isString = Lang.isString,
@@ -4219,9 +4221,11 @@ var L = A.Lang,
 	ARROW = 'arrow',
 	BODY = 'body',
 	BODY_CONTENT = 'bodyContent',
+	BOTTOM = 'bottom',
 	BOUNDING_BOX = 'boundingBox',
 	CANCEL = 'cancel',
 	CLICK = 'click',
+	CONSTRAIN = 'constrain',
 	DATE = 'date',
 	DATE_FORMAT = 'dateFormat',
 	DELETE = 'delete',
@@ -4233,8 +4237,8 @@ var L = A.Lang,
 	OFFSET_HEIGHT = 'offsetHeight',
 	OFFSET_WIDTH = 'offsetWidth',
 	OVERLAY_OFFSET = 'overlayOffset',
-	REPEATED = 'repeated',
 	RENDERED = 'rendered',
+	RIGHT = 'right',
 	SAVE = 'save',
 	SCHEDULER_CHANGE = 'schedulerChange',
 	SHADOW = 'shadow',
@@ -4244,6 +4248,7 @@ var L = A.Lang,
 	SUBMIT = 'submit',
 	VALUE = 'value',
 	VISIBLE_CHANGE = 'visibleChange',
+	WIDTH = 'width',
 
 	EV_SCHEDULER_EVENT_RECORDER_CANCEL = 'cancel',
 	EV_SCHEDULER_EVENT_RECORDER_DELETE = 'delete',
@@ -4254,6 +4259,8 @@ var L = A.Lang,
 
 	CSS_SCHEDULER_EVENT_RECORDER_OVERLAY = getCN(SCHEDULER, EVENT, RECORDER, OVERLAY),
 	CSS_SCHEDULER_EVENT_RECORDER_OVERLAY_ARROW = getCN(SCHEDULER, EVENT, RECORDER, OVERLAY, ARROW),
+	CSS_SCHEDULER_EVENT_RECORDER_OVERLAY_ARROW_BOTTOM = getCN(SCHEDULER, EVENT, RECORDER, OVERLAY, ARROW, BOTTOM),
+	CSS_SCHEDULER_EVENT_RECORDER_OVERLAY_ARROW_RIGHT = getCN(SCHEDULER, EVENT, RECORDER, OVERLAY, ARROW, RIGHT),
 	CSS_SCHEDULER_EVENT_RECORDER_OVERLAY_ARROW_SHADOW = getCN(SCHEDULER, EVENT, RECORDER, OVERLAY, ARROW, SHADOW),
 	CSS_SCHEDULER_EVENT_RECORDER_OVERLAY_BODY = getCN(SCHEDULER, EVENT, RECORDER, OVERLAY, BODY),
 	CSS_SCHEDULER_EVENT_RECORDER_OVERLAY_CONTENT = getCN(SCHEDULER, EVENT, RECORDER, OVERLAY, CONTENT),
@@ -4328,9 +4335,7 @@ var SchedulerEventRecorder = A.Component.create({
 		overlay: {
 			validator: isObject,
 			value: {
-				align: {
-					points: [ TL, TL ]
-				},
+				constrain: null,
 				visible: false,
 				width: 300,
 				zIndex: 500
@@ -4409,6 +4414,8 @@ var SchedulerEventRecorder = A.Component.create({
 			var instance = this;
 			var scheduler = event.newVal;
 			var schedulerBB = scheduler.get(BOUNDING_BOX);
+
+			instance[OVERLAY].set(CONSTRAIN, schedulerBB);
 
 			schedulerBB.delegate(CLICK, A.bind(instance._onClickSchedulerEvent, instance), _DOT + CSS_SCHEDULER_EVENT);
 		},
@@ -4616,8 +4623,10 @@ var SchedulerEventRecorder = A.Component.create({
 		},
 
 		showOverlay: function(xy, offset) {
-			var instance = this;
-			var defaultOffset = instance.get(OVERLAY_OFFSET);
+			var instance = this,
+				constrain = instance[OVERLAY].get(CONSTRAIN),
+				overlayOffset = instance.get(OVERLAY_OFFSET),
+				defaultXY = xy.concat([]);
 
 			if (!instance[OVERLAY].get(RENDERED)) {
 				instance._renderOverlay();
@@ -4629,26 +4638,42 @@ var SchedulerEventRecorder = A.Component.create({
 				var eventNode = (instance.get(EVENT) || instance).get(NODE);
 				var titleNode = eventNode.one(_DOT + CSS_SCHEDULER_EVENT_TITLE);
 
-				offset = [defaultOffset[0] + titleNode.get(OFFSET_WIDTH), defaultOffset[1] + titleNode.get(OFFSET_HEIGHT) / 2];
+				offset = [overlayOffset[0] + titleNode.get(OFFSET_WIDTH), overlayOffset[1] + titleNode.get(OFFSET_HEIGHT) / 2];
 
 				xy = titleNode.getXY();
 			}
 
-			// Since #2530972 is not yet done, manually putting an offset to the alignment
-			offset = offset || defaultOffset;
+			offset = offset || overlayOffset;
 
 			xy[0] += offset[0];
 			xy[1] += offset[1];
 
-			instance[OVERLAY].set('xy', xy);
-		}
+			var overlayBB = instance[OVERLAY].get(BOUNDING_BOX),
+				overlayWidth = overlayBB.get(OFFSET_WIDTH),
+				overlayHeader = overlayBB.one(_DOT + CSS_SCHEDULER_EVENT_RECORDER_OVERLAY_HEADER),
+				arrows = overlayBB.all(_DOT+CSS_SCHEDULER_EVENT_RECORDER_OVERLAY_ARROW);
 
+			if ((xy[0] + overlayWidth) >= constrain.get(OFFSET_WIDTH)) {
+				arrows.addClass(CSS_SCHEDULER_EVENT_RECORDER_OVERLAY_ARROW_RIGHT);
+
+				xy[0] -= overlayWidth + arrows.item(0).get(OFFSET_WIDTH);
+			}
+
+			instance[OVERLAY].set('xy', xy);
+
+			if (defaultXY[1] >= (overlayHeader.get(OFFSET_HEIGHT) + overlayHeader.getY())) {
+				arrows.addClass(CSS_SCHEDULER_EVENT_RECORDER_OVERLAY_ARROW_BOTTOM);
+			}
+			else {
+				arrows.removeClass(CSS_SCHEDULER_EVENT_RECORDER_OVERLAY_ARROW_BOTTOM);
+			}
+		}
 	}
 });
 
 A.SchedulerEventRecorder = SchedulerEventRecorder;
 
-}, '@VERSION@' ,{requires:['aui-base','aui-color-util','aui-datatype','aui-template','aui-toolbar','io-form','querystring','overlay'], skinnable:true});
+}, '@VERSION@' ,{skinnable:true, requires:['aui-base','aui-color-util','aui-datatype','aui-template','aui-toolbar','io-form','querystring','overlay']});
 AUI.add('aui-scheduler-calendar', function(A) {
 var Lang = A.Lang,
 	isArray = Lang.isArray,
