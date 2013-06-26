@@ -88,6 +88,7 @@ var L = A.Lang,
 	WEEK_DAYS = 'weekDays',
 	WEEK_DAYS_NODE = 'weekDaysNode',
 
+	EV_CALENDAR_CLEAR = 'calendar:clear',
 	EV_CALENDAR_SELECT = 'calendar:select',
 
 	getCN = A.getClassName,
@@ -707,6 +708,8 @@ var Calendar = A.Component.create(
 				var instance = this;
 
 				instance.set(DATES, Calendar.EMPTY_DATES);
+
+				instance.fire(EV_CALENDAR_CLEAR);
 			},
 
 			/**
@@ -767,8 +770,17 @@ var Calendar = A.Component.create(
 				var instance = this;
 
 				var date = instance._normalizeYearMonth();
+				var newDay = date.day + toInt(offsetDay);
+				var newMonth = date.month + toInt(offsetMonth);
+				var newYear = date.year + toInt(offsetYear);
 
-				return DateMath.getDate(date.year + toInt(offsetYear), date.month + toInt(offsetMonth), date.day + toInt(offsetDay));
+				var totalMonthDays = instance.getDaysInMonth(date.year, newMonth);
+
+				if (newDay > totalMonthDays) {
+					newDay = totalMonthDays;
+				}
+
+				return DateMath.getDate(newYear, newMonth, newDay);
 			},
 
 			/**
@@ -1144,15 +1156,19 @@ var Calendar = A.Component.create(
 
 				// create publish function for kweight optimization
 				var publish = function(name, fn) {
-					instance.publish(name, {
-						defaultFn: fn,
-						queuable: false,
-						emitFacade: true,
-						bubbles: true,
-						prefix: CALENDAR
-					});
+					instance.publish(
+						name,
+						{
+							bubbles: true,
+							defaultFn: fn,
+							emitFacade: true,
+							prefix: CALENDAR,
+							queuable: false
+						}
+					);
 				};
 
+				publish(EV_CALENDAR_CLEAR);
 				publish(EV_CALENDAR_SELECT);
 			},
 
@@ -1288,7 +1304,7 @@ var Calendar = A.Component.create(
 			_getMonthOverlapDaysOffset: function() {
 				var instance = this;
 
-				return Math.abs(DateMath.getDayOffset(instance.getFirstDayOfWeek(), instance.findMonthStart()));
+				return Math.abs(DateMath.getDayOffset(DateMath.safeClearTime(instance.getFirstDayOfWeek()), DateMath.safeClearTime(instance.findMonthStart())));
 			},
 
 			/**

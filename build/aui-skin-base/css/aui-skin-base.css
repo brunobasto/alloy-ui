@@ -600,7 +600,7 @@ body {
 	overflow: hidden;
 }
 
-.ie body {
+.ie7 body {
 	position: relative;
 }
 
@@ -834,6 +834,15 @@ body {
 	overflow: hidden;
 	text-indent: -99999em;
 	width: 16px;
+}
+
+.ie6, .ie7 {
+	.aui-icon {
+		font-size: 0;
+		line-height: 0;
+		overflow: hidden;
+		text-indent: 0;
+	}
 }
 
 .aui-icon-carat-1-t {
