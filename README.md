@@ -18,6 +18,8 @@ Provides a set of util tasks to work with [AlloyUI](http://github.com/liferay/al
 
 > To change any default option from a task check [Gruntfile.js](https://github.com/liferay/alloy-ui/blob/master/Gruntfile.js).
 
+Test.
+
 ### Setup
 
 1. Install [NodeJS](https://github.com/bevry/community/wiki/Installing-Node), if you don't have it yet.
