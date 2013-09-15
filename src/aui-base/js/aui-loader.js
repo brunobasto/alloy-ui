@@ -116,6 +116,19 @@ Y.mix(YUI.Env[Y.version].modules, {
             "aui-widget-toggle"
         ]
     },
+    "aui-button-search-cancel": {
+        "requires": [
+            "array-invoke",
+            "base",
+            "base-build",
+            "event-focus",
+            "node-screen",
+            "node-event-delegate",
+            "aui-node-base",
+            "aui-classnamemanager",
+            "aui-event-input"
+        ]
+    },
     "aui-carousel": {
         "requires": [
             "anim",
@@ -1021,4 +1034,4 @@ Y.mix(YUI.Env[Y.version].modules, {
         ]
     }
 });
-YUI.Env[Y.version].md5 = 'c6ed3ea1315019da931d98e072d5e208';
+YUI.Env[Y.version].md5 = '627f43396a530ddf385e28d45cac287b';
