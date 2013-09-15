@@ -12,6 +12,119 @@ AlloyUI is a framework built on top of [YUI3](http://yuilibrary.com) (JavaScript
 * [Contributing](http://alloyui.com/contributing/)
 * [About](http://alloyui.com/about/)
 
+## Automated tasks
+
+Provides a set of util tasks to work with [AlloyUI](http://github.com/liferay/alloy-ui) project.
+
+> To change any default option from a task check [Gruntfile.js](https://github.com/liferay/alloy-ui/blob/master/Gruntfile.js).
+
+### Setup
+
+1. Install [NodeJS](https://github.com/bevry/community/wiki/Installing-Node), if you don't have it yet.
+
+2. Install global dependencies:
+
+    ```
+[sudo] npm install -g grunt-cli shifter yogi yuidocjs
+    ```
+
+3. Install local dependencies:
+
+    ```
+npm install
+    ```
+
+4. Initialize dependencies:
+
+    ```
+grunt init
+    ```
+
+### Build
+
+* Build YUI and AlloyUI:
+
+    ```
+grunt build
+    ```
+
+* Build only YUI:
+
+    ```
+grunt build:yui
+    ```
+
+* Build only AlloyUI:
+
+    ```
+grunt build:aui
+    ```
+
+* Build and import Bootstrap's CSS:
+
+    ```
+grunt bootstrap
+    ```
+
+### Watch
+
+* Watch and build for any changes:
+
+    ```
+grunt watch
+    ```
+
+### Create
+
+* Create a new module under `src/` folder:
+
+    ```
+grunt create
+    ```
+
+### Release
+
+* Generate a release zip file:
+
+    ```
+grunt compress
+    ```
+
+* Build modules and generate a release zip file:
+
+    ```
+grunt release
+    ```
+
+### Test
+
+* Run unit tests:
+
+    ```
+grunt test
+    ```
+
+### API Docs
+
+* Build docs locally:
+
+    ```
+grunt api-build
+    ```
+
+* Build docs locally and deploy it to alloyui.com:
+
+    ```
+grunt api-deploy
+    ```
+
+
+* Run docs locally and watch for any changes:
+
+    ```
+grunt api-watch
+    ```
+
 ## Discussion
 
 * [Liferay Forums](http://www.liferay.com/community/forums/-/message_boards/category/8409523)
@@ -27,14 +140,10 @@ The basic structure of the project is given in the following way:
 * `src/` Contains the source code of the AlloyUI modules.
 * `.alloy.json` Specifies all dependencies and some configurations.
 * `.editorconfig` Specifies the coding style for different editors/IDEs.
-* `.shifter.json` Specifies additional configuration used in building AlloyUI.
 * `LICENSE.md` Defines the license agreement for AlloyUI.
 * `README.md` Explains the AlloyUI project.
 * `package.json` Lists all NodeJS dependencies.
 
-## Build
-
-To develop and build AlloyUI you need [Yogi Alloy](https://github.com/liferay/yogi-alloy), check [how to](https://github.com/liferay/yogi-alloy#alloyui).
 
 ## Team
 
