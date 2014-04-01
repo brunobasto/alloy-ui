@@ -265,9 +265,7 @@ YUI.add('aui-tree-tests', function(Y) {
                 'childTreeNode should be checked.');
         },
 
-        /**
-         * @tests AUI-1138
-         */
+        // Tests: AUI-1138
         'TreeNodeTask should add a state for when one of its children is unchecked': function() {
             var childTreeNode,
                 rootTreeNode,
@@ -302,11 +300,11 @@ YUI.add('aui-tree-tests', function(Y) {
                 'rootTreeNode does not have unchecked child.');
         },
 
-        /**
-         * @tests AUI-1141
-         */
+        // Tests: AUI-1141
         'TreeNodeView created from HTML Markup should display icon-minus when expanded': function() {
             var test = this;
+
+            var treeViewComponent = Y.one('#createFromHTMLMarkupTest');
 
             var treeView = new Y.TreeView({
                 boundingBox: treeViewComponent,
@@ -314,7 +312,6 @@ YUI.add('aui-tree-tests', function(Y) {
                 type: 'normal'
             }).render();
 
-            var treeViewComponent = Y.one('#createFromHTMLMarkupTest');
             var allHitareas = treeViewComponent.all('.tree-container .tree-hitarea');
 
             setTimeout(function() {
@@ -376,9 +373,7 @@ YUI.add('aui-tree-tests', function(Y) {
             test.wait(1000);
         },
 
-        /**
-         * @tests AUI-1156
-         */
+        // Tests: AUI-1156
         'Display \'Load More Results\' link for TreeNodes': function() {
             var childTreeNode,
                 hitAreaNodeList,

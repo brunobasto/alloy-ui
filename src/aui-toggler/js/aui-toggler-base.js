@@ -10,44 +10,17 @@ var Lang = A.Lang,
     isUndefined = Lang.isUndefined,
 
     toInt = Lang.toInt,
-
-    ANIMATED = 'animated',
-    ANIMATING = 'animating',
-    BIND_DOM_EVENTS = 'bindDOMEvents',
-    CLICK = 'click',
-    COLLAPSED = 'collapsed',
-    CONTENT = 'content',
     CUBIC_BEZIER = 'cubic-bezier(0, 0.1, 0, 1.0)',
-    DOWN = 'down',
-    ENTER = 'enter',
-    ESC = 'esc',
-    EXPANDED = 'expanded',
-    EXPANDED_CHANGE = 'expandedChange',
-    GET_BOUNDING_CLIENT_RECT = 'getBoundingClientRect',
-    HEADER = 'header',
-    KEYDOWN = 'keydown',
-    LEFT = 'left',
-    MARGIN_TOP = 'marginTop',
-    NUM_MINUS = 'num_minus',
-    NUM_PLUS = 'num_plus',
-    OFFSET_HEIGHT = 'offsetHeight',
-    PIXEL = 'px',
-    RIGHT = 'right',
-    SPACE = 'space',
-    TOGGLER = 'toggler',
-    TRANSITION = 'transition',
-    UP = 'up',
-    WRAPPER = 'wrapper',
 
     getCN = A.getClassName,
 
-    CSS_TOGGLER_CONTENT = getCN(TOGGLER, CONTENT),
-    CSS_TOGGLER_CONTENT_COLLAPSED = getCN(TOGGLER, CONTENT, COLLAPSED),
-    CSS_TOGGLER_CONTENT_EXPANDED = getCN(TOGGLER, CONTENT, EXPANDED),
-    CSS_TOGGLER_CONTENT_WRAPPER = getCN(TOGGLER, CONTENT, WRAPPER),
-    CSS_TOGGLER_HEADER = getCN(TOGGLER, HEADER),
-    CSS_TOGGLER_HEADER_COLLAPSED = getCN(TOGGLER, HEADER, COLLAPSED),
-    CSS_TOGGLER_HEADER_EXPANDED = getCN(TOGGLER, HEADER, EXPANDED),
+    CSS_TOGGLER_CONTENT = getCN('toggler', 'content'),
+    CSS_TOGGLER_CONTENT_COLLAPSED = getCN('toggler', 'content', 'collapsed'),
+    CSS_TOGGLER_CONTENT_EXPANDED = getCN('toggler', 'content', 'expanded'),
+    CSS_TOGGLER_CONTENT_WRAPPER = getCN('toggler', 'content', 'wrapper'),
+    CSS_TOGGLER_HEADER = getCN('toggler', 'header'),
+    CSS_TOGGLER_HEADER_COLLAPSED = getCN('toggler', 'header', 'collapsed'),
+    CSS_TOGGLER_HEADER_EXPANDED = getCN('toggler', 'header', 'expanded'),
 
     CSS_TOGGLER_CONTENT_STATE = {
         'false': CSS_TOGGLER_CONTENT_COLLAPSED,
@@ -81,11 +54,11 @@ var Toggler = A.Component.create({
      * @type String
      * @static
      */
-    NAME: TOGGLER,
+    NAME: 'toggler',
 
     /**
      * Static property used to define the default attribute
-     * configuration for the Toggler.
+     * configuration for the `A.Toggler`.
      *
      * @property ATTRS
      * @type Object
@@ -94,7 +67,7 @@ var Toggler = A.Component.create({
     ATTRS: {
 
         /**
-         * Determine if the Toggler transitions will animate.
+         * Determine if the `A.Toggler` transitions will animate.
          *
          * @attribute animated
          * @default false
@@ -108,7 +81,7 @@ var Toggler = A.Component.create({
         },
 
         /**
-         * Determine if the Toggler transitions are being animated in that
+         * Determine if the `A.Toggler` transitions are being animated in that
          * moment.
          *
          * @attribute animating
@@ -121,7 +94,7 @@ var Toggler = A.Component.create({
         },
 
         /**
-         * Determine if the Toggler should bind DOM events or not.
+         * Determine if the `A.Toggler` should bind DOM events or not.
          *
          * @attribute bindDOMEvents
          * @default true
@@ -197,17 +170,17 @@ var Toggler = A.Component.create({
      * @param instance
      */
     headerEventHandler: function(event, instance) {
-        if (event.type === CLICK || event.isKey(ENTER) || event.isKey(SPACE)) {
+        if (event.type === 'click' || event.isKey('enter') || event.isKey('space')) {
             event.preventDefault();
 
             return instance.toggle();
         }
-        else if (event.isKey(DOWN) || event.isKey(RIGHT) || event.isKey(NUM_PLUS)) {
+        else if (event.isKey('down') || event.isKey('right') || event.isKey('num_plus')) {
             event.preventDefault();
 
             return instance.expand();
         }
-        else if (event.isKey(UP) || event.isKey(LEFT) || event.isKey(ESC) || event.isKey(NUM_MINUS)) {
+        else if (event.isKey('up') || event.isKey('left') || event.isKey('esc') || event.isKey('num_minus')) {
             event.preventDefault();
 
             return instance.collapse();
@@ -217,7 +190,7 @@ var Toggler = A.Component.create({
     prototype: {
 
         /**
-         * Construction logic executed during Toggler instantiation. Lifecycle.
+         * Construction logic executed during `A.Toggler` instantiation. Lifecycle.
          *
          * @method initializer
          * @protected
@@ -228,28 +201,28 @@ var Toggler = A.Component.create({
             instance.bindUI();
             instance.syncUI();
 
-            instance._uiSetExpanded(instance.get(EXPANDED));
+            instance._uiSetExpanded(instance.get('expanded'));
         },
 
         /**
-         * Bind the events on the Toggler UI. Lifecycle.
+         * Bind the events on the `A.Toggler` UI. Lifecycle.
          *
          * @method bindUI
          * @protected
          */
         bindUI: function() {
             var instance = this;
-            var header = instance.get(HEADER);
+            var header = instance.get('header');
 
-            header.setData(TOGGLER, instance);
+            header.setData('toggler', instance);
 
             var eventHandles = [
-                instance.on(EXPANDED_CHANGE, A.bind(instance._onExpandedChange, instance))
+                instance.on('expandedChange', A.bind(instance._onExpandedChange, instance))
             ];
 
-            if (instance.get(BIND_DOM_EVENTS)) {
+            if (instance.get('bindDOMEvents')) {
                 eventHandles.push(
-                    header.on([CLICK, KEYDOWN], A.rbind(Toggler.headerEventHandler, null, instance))
+                    header.on(['click', 'keydown'], A.rbind(Toggler.headerEventHandler, null, instance))
                 );
             }
 
@@ -257,7 +230,7 @@ var Toggler = A.Component.create({
         },
 
         /**
-         * Sync the events on the Toggler UI. Lifecycle.
+         * Sync the events on the `A.Toggler` UI. Lifecycle.
          *
          * @method syncUI
          * @protected
@@ -265,12 +238,12 @@ var Toggler = A.Component.create({
         syncUI: function() {
             var instance = this;
 
-            instance.get(CONTENT).addClass(CSS_TOGGLER_CONTENT);
-            instance.get(HEADER).addClass(CSS_TOGGLER_HEADER);
+            instance.get('content').addClass(CSS_TOGGLER_CONTENT);
+            instance.get('header').addClass(CSS_TOGGLER_HEADER);
         },
 
         /**
-         * Destructor lifecycle implementation for the `Toggler` class.
+         * Destructor lifecycle implementation for the `A.Toggler` class.
          *
          * @method destructor
          * @protected
@@ -278,13 +251,13 @@ var Toggler = A.Component.create({
         destructor: function() {
             var instance = this;
 
-            instance.get(HEADER).setData(TOGGLER, null);
+            instance.get('header').setData('toggler', null);
 
             (new A.EventHandle(instance._eventHandles)).detach();
         },
 
         /**
-         * Expand Toggler with an animation.
+         * Expand `A.Toggler` with an animation.
          *
          * @method animate
          * @param config
@@ -295,13 +268,13 @@ var Toggler = A.Component.create({
 
             instance._uiSetExpanded(true);
 
-            var transition = A.merge(config, instance.get(TRANSITION));
+            var transition = A.merge(config, instance.get('transition'));
 
-            instance.get(CONTENT).transition(transition, A.bind(fn, instance));
+            instance.get('content').transition(transition, A.bind(fn, instance));
         },
 
         /**
-         * Hide Toggler content.
+         * Hide `A.Toggler` content.
          *
          * @method collapse
          */
@@ -312,7 +285,7 @@ var Toggler = A.Component.create({
         },
 
         /**
-         * Show Toggler content.
+         * Show `A.Toggler` content.
          *
          * @method expand
          */
@@ -330,23 +303,23 @@ var Toggler = A.Component.create({
          */
         getContentHeight: function() {
             var instance = this;
-            var content = instance.get(CONTENT);
-            var expanded = instance.get(EXPANDED),
+            var content = instance.get('content');
+            var expanded = instance.get('expanded'),
                 height;
 
             if (!expanded) {
                 instance._uiSetExpanded(true);
             }
 
-            if (content.hasMethod(GET_BOUNDING_CLIENT_RECT)) {
-                var preciseRegion = content.invoke(GET_BOUNDING_CLIENT_RECT);
+            if (content.hasMethod('getBoundingClientRect')) {
+                var preciseRegion = content.invoke('getBoundingClientRect');
 
                 if (preciseRegion) {
                     height = preciseRegion.bottom - preciseRegion.top;
                 }
             }
             else {
-                height = content.get(OFFSET_HEIGHT);
+                height = content.get('offsetHeight');
             }
 
             if (!expanded) {
@@ -364,57 +337,57 @@ var Toggler = A.Component.create({
          */
         toggle: function(expand, payload) {
             var instance = this,
-                header = instance.get(HEADER),
+                header = instance.get('header'),
                 expanded;
 
             if (!header.test(':visible')) {
                 return;
             }
 
-            expanded = instance.get(EXPANDED);
+            expanded = instance.get('expanded');
 
             if (isUndefined(expand)) {
                 expand = !expanded;
             }
 
-            if (instance.get(ANIMATED) && (expand !== expanded)) {
-                if (instance.get(ANIMATING)) {
+            if (instance.get('animated') && (expand !== expanded)) {
+                if (instance.get('animating')) {
                     return expand;
                 }
 
-                var content = instance.get(CONTENT);
+                var content = instance.get('content');
 
                 var height = instance.getContentHeight();
                 var gutter = instance.contentGutter;
 
                 if (isUndefined(gutter)) {
-                    gutter = instance.contentGutter = toInt(content.getStyle(MARGIN_TOP));
+                    gutter = instance.contentGutter = toInt(content.getStyle('marginTop'));
                 }
 
                 if (!instance.wrapped) {
                     content.wrap(TPL_CONTENT_WRAPPER);
 
                     if (expand) {
-                        content.setStyle(MARGIN_TOP, -(height + gutter));
+                        content.setStyle('marginTop', -(height + gutter));
                     }
 
                     instance.wrapped = true;
                 }
 
-                instance.set(ANIMATING, true);
+                instance.set('animating', true);
 
                 instance.animate({
-                        marginTop: (expand ? gutter : -(height + gutter)) + PIXEL
+                        marginTop: (expand ? gutter : -(height + gutter)) + 'px'
                     },
                     function() {
-                        instance.set(ANIMATING, false);
+                        instance.set('animating', false);
 
-                        instance.set(EXPANDED, expand, payload);
+                        instance.set('expanded', expand, payload);
                     }
                 );
             }
             else {
-                instance.set(EXPANDED, expand, payload);
+                instance.set('expanded', expand, payload);
             }
 
             return expand;
@@ -443,8 +416,8 @@ var Toggler = A.Component.create({
         _uiSetExpanded: function(val) {
             var instance = this;
 
-            instance.get(CONTENT).replaceClass(CSS_TOGGLER_CONTENT_STATE[!val], CSS_TOGGLER_CONTENT_STATE[val]);
-            instance.get(HEADER).replaceClass(CSS_TOGGLER_HEADER_STATE[!val], CSS_TOGGLER_HEADER_STATE[val]);
+            instance.get('content').replaceClass(CSS_TOGGLER_CONTENT_STATE[!val], CSS_TOGGLER_CONTENT_STATE[val]);
+            instance.get('header').replaceClass(CSS_TOGGLER_HEADER_STATE[!val], CSS_TOGGLER_HEADER_STATE[val]);
         }
 
     }
