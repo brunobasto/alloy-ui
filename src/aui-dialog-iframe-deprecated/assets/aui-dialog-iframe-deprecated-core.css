@@ -13,6 +13,10 @@
 	padding: 15px;
 }
 
+.dialog-iframe-root-node body {
+	padding: 0;
+}
+
 .yui3-widget-content-expanded .dialog-iframe-node {
 	height: 100%;
 }
