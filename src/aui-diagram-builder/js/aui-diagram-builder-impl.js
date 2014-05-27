@@ -158,7 +158,10 @@ var DiagramBuilder = A.Component.create({
          */
         graphic: {
             valueFn: function() {
-                return new A.Graphic();
+                return new A.Graphic({
+                    // autoSize: 'sizeContentToGraphic'
+                    // , preserveAspectRatio: 'xMaxYMax'
+                });
             },
             validator: isObject
         },
@@ -291,18 +294,31 @@ var DiagramBuilder = A.Component.create({
 
             instance.handlerKeyDown = A.getDoc().on('keydown', A.bind(instance._afterKeyEvent, instance));
 
-            instance.dropContainer.delegate(
+            instance.canvas.delegate(
                 'click', A.bind(instance._onNodeClick, instance), '.' + CSS_DIAGRAM_NODE);
 
-            instance.dropContainer.delegate(
+            instance.canvas.delegate(
                 'mousedown', A.bind(instance._onCloseButtonMouseDown, instance), '.diagram-builder-controls button'
             );
 
-            instance.dropContainer.delegate(
+            instance.canvas.delegate(
                 'mouseenter', A.bind(instance._onNodeMouseEnter, instance), '.' + CSS_DIAGRAM_NODE);
 
-            instance.dropContainer.delegate(
+            instance.canvas.delegate(
                 'mouseleave', A.bind(instance._onNodeMouseLeave, instance), '.' + CSS_DIAGRAM_NODE);
+
+            // instance.dropContainer.delegate(
+            //     'click', A.bind(instance._onNodeClick, instance), '.' + CSS_DIAGRAM_NODE);
+
+            // instance.dropContainer.delegate(
+            //     'mousedown', A.bind(instance._onCloseButtonMouseDown, instance), '.diagram-builder-controls button'
+            // );
+
+            // instance.dropContainer.delegate(
+            //     'mouseenter', A.bind(instance._onNodeMouseEnter, instance), '.' + CSS_DIAGRAM_NODE);
+
+            // instance.dropContainer.delegate(
+            //     'mouseleave', A.bind(instance._onNodeMouseLeave, instance), '.' + CSS_DIAGRAM_NODE);
         },
 
         /**
@@ -701,7 +717,8 @@ var DiagramBuilder = A.Component.create({
             var instance = this;
 
             if (!field.get('rendered')) {
-                field.render(instance.dropContainer);
+                field.render(instance.canvas);
+                // field.render(instance.dropContainer);
             }
         },
 
@@ -931,7 +948,7 @@ var DiagramBuilder = A.Component.create({
         _onDrag: function(event) {
             var instance = this;
             var drag = event.target;
-
+console.log('_onDrag');
             if (instance.isFieldsDrag(drag)) {
                 var diagramNode = A.Widget.getByNode(drag.get('dragNode'));
 
@@ -954,7 +971,7 @@ var DiagramBuilder = A.Component.create({
             var instance = this;
             var drag = event.target;
             var diagramNode = A.Widget.getByNode(drag.get('dragNode'));
-
+console.log('_onDragEnd');
             if (diagramNode && instance.isFieldsDrag(drag)) {
                 diagramNode.set('xy', diagramNode.getLeftTop());
             }
@@ -975,7 +992,8 @@ var DiagramBuilder = A.Component.create({
                 var availableField = drag.get('node').getData('availableField');
 
                 var newField = instance.addField({
-                    xy: getLeftTop(drag.lastXY, instance.dropContainer),
+                    // xy: getLeftTop(drag.lastXY, instance.dropContainer),
+                    xy: getLeftTop(drag.lastXY, instance.canvas),
                     type: availableField.get('type')
                 });
 
@@ -1184,23 +1202,23 @@ var DiagramBuilder = A.Component.create({
          */
         _setFieldsDragConfig: function(val) {
             var instance = this;
-            var dropContainer = instance.dropContainer;
+            var canvas = instance.canvas;
 
             return A.merge({
                     bubbleTargets: instance,
-                    container: dropContainer,
+                    container: canvas,
                     dragConfig: {
                         plugins: [
                             {
                                 cfg: {
-                                    constrain: dropContainer
+                                    constrain: canvas
                                 },
                                 fn: A.Plugin.DDConstrained
                             },
                             {
                                 cfg: {
                                     scrollDelay: 150,
-                                    node: dropContainer
+                                    node: canvas
                                 },
                                 fn: A.Plugin.DDNodeScroll
                             }
@@ -2051,7 +2069,8 @@ var DiagramNode = A.Component.create({
         getContainer: function() {
             var instance = this;
 
-            return (instance.get('builder').dropContainer || instance.get('boundingBox').get('parentNode'));
+            return (instance.get('builder').canvas || instance.get('boundingBox').get('parentNode'));
+            // return (instance.get('builder').dropContainer || instance.get('boundingBox').get('parentNode'));
         },
 
         /**
@@ -2766,6 +2785,35 @@ var DiagramNode = A.Component.create({
         _uiSetXY: function(val) {
             var instance = this;
             var containerXY = instance.getContainer().getXY();
+            // var canvas = instance.get('builder').get('canvas');
+            // var container = instance.getContainer();
+
+            // if(instance.get('graphic')) {
+            //     console.log(instance.get('graphic').get('preserveAspectRatio'));
+            // }
+
+            // if(val[0] > instance.getContainer().get('offsetWidth')) {
+            //     console.log('val', val);
+            //     console.log('containerXY', instance.get('boundingBox').getXY());
+            //     // console.log('Canvas offsetWidth', canvas.get('offsetWidth'));
+            //     // console.log('Container  offsetWidth', canvas.get('offsetWidth'));
+            //     // console.log('containerXY', containerXY);
+            //     canvas.set('offsetWidth', val[0] + containerXY[1]);
+            //     container.set('offsetWidth', val[0] + containerXY[1] + 100);
+            //     // console.log('Canvas offsetWidth', canvas.get('offsetWidth'));
+            //     // console.log('Container  offsetWidth', canvas.get('offsetWidth'));
+            // }
+
+            // if(val[1] > instance.getContainer().get('offsetHeight')) {
+            //     console.log('val', val);
+            //     console.log('containerXY', instance.get('boundingBox').getXY());
+            //     // console.log('Canvas offsetHeight', canvas.get('offsetHeight'));
+            //     // console.log('Container  offsetHeight', canvas.get('offsetHeight'));
+            //     canvas.set('offsetHeight', val[1] + containerXY[1]);
+            //     container.set('offsetHeight', val[1] + containerXY[1] + 100);
+            //     // console.log('Canvas offsetHeight', canvas.get('offsetHeight'));
+            //     // console.log('Container  offsetHeight', canvas.get('offsetHeight'));
+            // }
 
             this._posNode.setXY([val[0] + containerXY[0], val[1] + containerXY[1]]);
         },

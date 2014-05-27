@@ -8,6 +8,11 @@
     <script src="../../build/aui/aui.js"></script>
 </head>
 <body>
+<style type="text/css">
+    .diagram-builder-canvas {
+        overflow: auto;
+    }
+</style>
     <h1>AlloyUI - Diagram builder</h1>
     <div id="diagramBuilder"></div>
     <script>
@@ -52,7 +57,7 @@
             }
         ];
 
-        var diagramBuilder = new Y.DiagramBuilder({
+        diagramBuilder = new Y.DiagramBuilder({
             availableFields: availableFields,
             boundingBox: '#diagramBuilder',
             fields: [
@@ -93,7 +98,7 @@
                 {
                     name: 'EndNode0',
                     type: 'end',
-                    xy: [600, 10]
+                    xy: [1000, 1000]
                 }
             ]
         }).render();

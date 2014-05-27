@@ -598,11 +598,11 @@ var DiagramBuilderBase = A.Component.create({
          *
          * @attribute dropContainer
          */
-        dropContainer: {
-            valueFn: function() {
-                return A.Node.create(this.DROP_CONTAINER_TEMPLATE);
-            }
-        },
+        // dropContainer: {
+        //     valueFn: function() {
+        //         return A.Node.create(this.DROP_CONTAINER_TEMPLATE);
+        //     }
+        // },
 
         /**
          * Host node for fields created using the `FIELDS_CONTAINER_TEMPLATE`
@@ -697,7 +697,7 @@ var DiagramBuilderBase = A.Component.create({
      */
     HTML_PARSER: {
         contentContainer: '.' + CSS_DIAGRAM_BUILDER_CONTENT_CONTAINER,
-        dropContainer: '.' + CSS_DIAGRAM_BUILDER_DROP_CONTAINER,
+        // dropContainer: '.' + CSS_DIAGRAM_BUILDER_DROP_CONTAINER,
         fieldsContainer: '.' + CSS_DIAGRAM_BUILDER_FIELDS_CONTAINER,
         toolbarContainer: '.' + CSS_DIAGRAM_BUILDER_TOOLBAR_CONTAINER,
         canvas: '.' + CSS_DIAGRAM_BUILDER_CANVAS
@@ -724,7 +724,7 @@ var DiagramBuilderBase = A.Component.create({
     prototype: {
         CANVAS_TEMPLATE: '<div tabindex="1" class="' + CSS_DIAGRAM_BUILDER_CANVAS + '"></div>',
         CONTENT_CONTAINER_TEMPLATE: '<div class="' + CSS_DIAGRAM_BUILDER_CONTENT_CONTAINER + '"></div>',
-        DROP_CONTAINER_TEMPLATE: '<div class="' + CSS_DIAGRAM_BUILDER_DROP_CONTAINER + '"></div>',
+        // DROP_CONTAINER_TEMPLATE: '<div class="' + CSS_DIAGRAM_BUILDER_DROP_CONTAINER + '"></div>',
         FIELDS_CONTAINER_TEMPLATE: '<ul class="' + [CSS_DIAGRAM_BUILDER_FIELDS_CONTAINER, CSS_CLEARFIX].join(' ') +
             '"></ul>',
         TOOLBAR_CONTAINER_TEMPLATE: '<div class="' + CSS_DIAGRAM_BUILDER_TOOLBAR_CONTAINER + '"></div>',
@@ -760,7 +760,7 @@ var DiagramBuilderBase = A.Component.create({
 
             instance.canvas = instance.get('canvas');
             instance.contentContainer = instance.get('contentContainer');
-            instance.dropContainer = instance.get('dropContainer');
+            // instance.dropContainer = instance.get('dropContainer');
             instance.fieldsContainer = instance.get('fieldsContainer');
             instance.toolbarContainer = instance.get('toolbarContainer');
         },
@@ -884,7 +884,7 @@ var DiagramBuilderBase = A.Component.create({
             var instance = this;
 
             instance.contentContainer.setStyle('height', isNumber(val) ? val + instance.DEF_UNIT : val);
-            instance.dropContainer.setStyle('height', isNumber(val) ? val + instance.DEF_UNIT : val);
+            // instance.dropContainer.setStyle('height', isNumber(val) ? val + instance.DEF_UNIT : val);
         },
 
         /**
@@ -935,15 +935,15 @@ var DiagramBuilderBase = A.Component.create({
             var contentBox = instance.get('contentBox');
             var canvas = instance.canvas;
             var contentContainer = instance.contentContainer;
-            var dropContainer = instance.dropContainer;
+            // var dropContainer = instance.dropContainer;
 
             if (!canvas.inDoc()) {
                 contentContainer.appendChild(canvas);
             }
 
-            if (!dropContainer.inDoc()) {
-                canvas.appendChild(dropContainer);
-            }
+            // if (!dropContainer.inDoc()) {
+            //     canvas.appendChild(dropContainer);
+            // }
 
             if (contentContainer.inDoc()) {
                 contentContainer.get('parentNode').append(contentContainer);
@@ -1082,7 +1082,7 @@ var DiagramBuilderBase = A.Component.create({
             return A.merge({
                     bubbleTargets: instance,
                     groups: ['availableFields'],
-                    node: instance.dropContainer
+                    node: instance.canvas//instance.dropContainer
                 },
                 val || {}
             );
