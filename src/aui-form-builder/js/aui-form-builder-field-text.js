@@ -73,10 +73,8 @@ var FormBuilderTextField = A.Component.create({
          * @default 'small'
          */
         width: {
-            setter: function(val) {
-                val = L.String.toLowerCase(val);
-                return (WIDTH_VALUES_MAP[val]) ? val : 'small';
-            }
+            validator: '_validateWidth',
+            value: 'small'
         }
 
     },
@@ -166,6 +164,10 @@ var FormBuilderTextField = A.Component.create({
             templateNode.addClass(WIDTH_VALUES_MAP[val]);
 
             instance.prevWidth = val;
+        },
+
+        _validateWidth: function(val) {
+            return A.Object.owns(WIDTH_VALUES_MAP, L.String.toLowerCase(val));
         }
 
     }
