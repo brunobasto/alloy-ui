@@ -1,0 +1,40 @@
+{
+    "aui-acessible-dd": {
+        "use": [
+            "aui-acessible-dd-delegate",
+            "aui-acessible-dd-drag",
+            "aui-acessible-dd-drop"
+        ]
+    },
+
+    "aui-acessible-dd-delegate": {
+        "requires": [
+            "aui-component",
+            "aui-event-delegate-change",
+            "dd-delegate",
+            "dom",
+            "event-focus",
+            "event-key"
+        ]
+    },
+
+    "aui-acessible-dd-drag": {
+        "requires": [
+            "aui-component",
+            "dd-drag",
+            "dom",
+            "event-focus",
+            "event-key"
+        ]
+    },
+
+    "aui-acessible-dd-drop": {
+        "requires": [
+            "aui-component",
+            "dd-drop",
+            "dom",
+            "event-focus",
+            "event-key"
+        ]
+    }
+}

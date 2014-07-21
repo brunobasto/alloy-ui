@@ -1,0 +1,22 @@
+{
+    "name": "aui-acessible-dd",
+    "builds": {
+        "aui-acessible-dd-delegate": {
+            "jsfiles": [
+                "js/aui-acessible-dd-delegate.js"
+            ]
+        },
+
+        "aui-acessible-dd-drag": {
+            "jsfiles": [
+                "js/aui-acessible-dd-drag.js"
+            ]
+        },
+
+        "aui-acessible-dd-drop": {
+            "jsfiles": [
+                "js/aui-acessible-dd-drop.js"
+            ]
+        }
+    }
+}
