@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alloy 3 Gridster</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../build/aui-css/css/bootstrap.css">
+    <script src="../../build/aui/aui.js"></script>
+    <style>
+    .gridster {
+        background: #aaa;
+        width: 800px;
+        height: 800px;
+    }
+
+    .gridster-cell {
+        opacity: 0.9;
+        line-height: 200px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .gridster-cell {
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+    }
+
+    .gridster-cell:nth-child(1) {
+        background: #000000;
+    }
+
+    .gridster-cell:nth-child(1)::after {
+        content: '0';
+    }
+
+    .gridster-cell:nth-child(2) {
+        background: #ffaabb;
+    }
+
+    .gridster-cell:nth-child(2)::after {
+        content: '1';
+    }
+
+    .gridster-cell:nth-child(3) {
+        background: #ffcccc;
+    }
+
+    .gridster-cell:nth-child(3)::after {
+        content: '2';
+    }
+
+    .gridster-cell:nth-child(4) {
+        background: #ddffaa;
+    }
+
+    .gridster-cell:nth-child(4)::after {
+        content: '3';
+    }
+
+    .gridster-cell:nth-child(5) {
+        background: #44aaaa;
+    }
+
+    .gridster-cell:nth-child(5)::after {
+        content: '4';
+    }
+
+    .gridster-cell:nth-child(6) {
+        background: #44aaff;
+    }
+
+    .gridster-cell:nth-child(6)::after {
+        content: '5';
+    }
+
+    .gridster-cell:nth-child(7) {
+        background: #44bbff;
+    }
+
+    .gridster-cell:nth-child(7)::after {
+        content: '6';
+    }
+
+    .gridster-cell:nth-child(8) {
+        background: #44ddff;
+    }
+
+    .gridster-cell:nth-child(8)::after {
+        content: '7';
+    }
+
+    .gridster-cell:nth-child(9) {
+        background: #77ffaa;
+    }
+
+    .gridster-cell:nth-child(9)::after {
+        content: '8';
+    }
+
+    .gridster-cell:nth-child(10) {
+        background: #77eedd;
+    }
+
+    .gridster-cell:nth-child(10)::after {
+        content: '9';
+    }
+
+    .gridster-cell:nth-child(11) {
+        background: #88eeff;
+    }
+
+    .gridster-cell:nth-child(11)::after {
+        content: '10';
+    }
+
+    .gridster-cell:nth-child(12) {
+        background: #99ffaa;
+    }
+
+    .gridster-cell:nth-child(12)::after {
+        content: '11';
+    }
+
+    .gridster-cell:nth-child(13) {
+        background: #10aaff;
+    }
+
+    .gridster-cell:nth-child(13)::after {
+        content: '12';
+    }
+
+    .gridster-cell:nth-child(14) {
+        background: #10bbaa;
+    }
+
+    .gridster-cell:nth-child(14)::after {
+        content: '13';
+    }
+
+    .gridster-cell:nth-child(15) {
+        background: #13ccee;
+    }
+
+    .gridster-cell:nth-child(15)::after {
+        content: '14';
+    }
+
+    .gridster-cell:nth-child(16) {
+        background: #15ddee;
+    }
+
+    .gridster-cell:nth-child(16)::after {
+        content: '15';
+    }
+    </style>
+</head>
+<body class="yui3-skin-sam">
+<div class="container">
+    <div class="row">
+    <button id="reset">reset &amp; randomize</button>
+    <label for="controller">Show controller</label> <input type="checkbox" name="controller" id="controller" checked>
+        <div class="gridster" id="gridster">
+            <div class="gridster-content">
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+                <div class="gridster-cell"><div class="gridster-cell-content"></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    YUI({ filter:'raw' }).use('aui-gridster', function(Y) {
+        var reset = Y.one('#reset'),
+            gridster,
+            cells = Y.all('.gridster-cell'),
+            controller = Y.one('#controller');
+
+        gridster = new Y.Gridster({
+            boundingBox: '#gridster',
+            showController: true
+        }).render();
+
+        controller.on('change', function(event) {
+            gridster.set('showController', event.target.get('checked'));
+        });
+
+        reset.on('click', function() {
+            var counter,
+                current,
+                series = [];
+
+            for (counter = 0; counter < 16; counter += 1) {
+                current = cells.item(counter).one('.gridster-cell-content');
+
+                if (current.getStyle('display') === 'block' && Math.random() < 0.1) {
+                    current.setHTML('x');
+                } else {
+                    current.setHTML('');
+                }
+
+                series.push(counter);
+            }
+
+            gridster.updatePositions(series);
+        });
+    });
+</script>
+</body>
+</html>

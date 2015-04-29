@@ -1,0 +1,10 @@
+{
+    "name": "aui-gridster",
+    "builds": {
+        "aui-gridster": {
+            "jsfiles": [
+                "js/aui-gridster.js"
+            ]
+        }
+    }
+}

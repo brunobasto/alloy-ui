@@ -1,0 +1,67 @@
+.gridster {
+    position: relative;
+}
+
+.gridster-cell {
+    position: absolute;
+    font-size: 400%;
+    width: 25%;
+    height: 25%;
+}
+
+.gridster-cell-content {
+    overflow: scroll;
+}
+
+.gridster-cell:nth-child(1),
+.gridster-cell:nth-child(2),
+.gridster-cell:nth-child(3),
+.gridster-cell:nth-child(4) {
+    top: 0;
+}
+
+.gridster-cell:nth-child(5),
+.gridster-cell:nth-child(6),
+.gridster-cell:nth-child(7),
+.gridster-cell:nth-child(8) {
+    top: 25%;
+}
+
+.gridster-cell:nth-child(9),
+.gridster-cell:nth-child(10),
+.gridster-cell:nth-child(11),
+.gridster-cell:nth-child(12) {
+    top: 50%;
+}
+
+.gridster-cell:nth-child(13),
+.gridster-cell:nth-child(14),
+.gridster-cell:nth-child(15),
+.gridster-cell:nth-child(16) {
+    top: 75%;
+}
+
+.gridster-cell:nth-child(1),
+.gridster-cell:nth-child(5),
+.gridster-cell:nth-child(9),
+.gridster-cell:nth-child(13) {
+    left: 0;
+}
+
+.gridster-cell:nth-child(2),
+.gridster-cell:nth-child(6),
+.gridster-cell:nth-child(10),
+.gridster-cell:nth-child(14) {
+    left: 25%;
+}
+
+.gridster-cell:nth-child(3),
+.gridster-cell:nth-child(7),
+.gridster-cell:nth-child(11),
+.gridster-cell:nth-child(15) {
+    left: 50%;
+}
+
+.gridster-cell:nth-child(4n) {
+    left: 75%;
+}
