@@ -5,8 +5,7 @@
  * @submodule aui-form-builder-layout-builder
  */
 
-var CSS_ADD_PAGE_BREAK = A.getClassName('form', 'builder', 'add', 'page', 'break'),
-    CSS_CHOOSE_COL_MOVE = A.getClassName('form', 'builder', 'choose', 'col', 'move'),
+var CSS_CHOOSE_COL_MOVE = A.getClassName('form', 'builder', 'choose', 'col', 'move'),
     CSS_CHOOSE_COL_MOVE_TARGET = A.getClassName('form', 'builder', 'choose', 'col', 'move', 'target'),
     CSS_FIELD = A.getClassName('form', 'builder', 'field'),
     CSS_FIELD_MOVE_BUTTON = A.getClassName('form', 'builder', 'field', 'move', 'button'),
@@ -130,7 +129,7 @@ A.FormBuilderLayoutBuilder.prototype = {
      */
     _afterLayoutBuilderLayoutChange: function() {
         if (this._layoutBuilder) {
-            this._layoutBuilder.set('layout', this.get('layout'));
+            this._layoutBuilder.set('layout', this.getActiveLayout());
         }
     },
 
@@ -141,7 +140,7 @@ A.FormBuilderLayoutBuilder.prototype = {
      * @protected
      */
     _afterLayoutBuilderModeChange: function() {
-        var layout = this.get('layout');
+        var layout = this.getActiveLayout();
 
         this._uiSetLayoutBuilderMode(this.get('mode'));
         layout.normalizeColsHeight(layout.get('node').all('.row'));
@@ -161,18 +160,19 @@ A.FormBuilderLayoutBuilder.prototype = {
             addColMoveTarget: A.bind(this._addColMoveTarget, this),
             clickColMoveTarget: A.bind(this._clickColMoveTarget, this),
             container: this.get('contentBox').one('.' + CSS_LAYOUT),
-            layout: this.get('layout'),
+            layout: this.getActiveLayout(),
             removeColMoveButtons: A.bind(this._removeColMoveButtons, this),
             removeColMoveTargets: A.bind(this._removeColMoveTargets, this)
         });
 
         originalChooseColMoveTargetFn = this._layoutBuilder.get('chooseColMoveTarget');
-        this._layoutBuilder.set('chooseColMoveTarget', A.bind(this._chooseColMoveTarget, this, originalChooseColMoveTargetFn));
+        this._layoutBuilder.set('chooseColMoveTarget', A.bind(this._chooseColMoveTarget, this,
+            originalChooseColMoveTargetFn));
 
         this._uiSetLayoutBuilderMode(this.get('mode'));
 
-        this._layoutBuilder.get('layout').after('isColumnModeChange', A.bind(this._afterLayoutBuilderIsColumnModeChange, this));
-        this._setPositionForPageBreakButton();
+        this._layoutBuilder.get('layout').after('isColumnModeChange', A.bind(this._afterLayoutBuilderIsColumnModeChange,
+            this));
 
         this._eventHandles.push(
             this._fieldToolbar.on('onToolbarFieldMouseEnter', A.bind(this._onFormBuilderToolbarFieldMouseEnter, this))
@@ -257,7 +257,8 @@ A.FormBuilderLayoutBuilder.prototype = {
         if (parentFieldNode) {
             parentFieldNode.getData('field-instance').removeNestedField(this._fieldBeingMoved);
 
-            this.get('layout').normalizeColsHeight(new A.NodeList(this.getFieldRow(parentFieldNode.getData('field-instance'))));
+            this.getActiveLayout().normalizeColsHeight(new A.NodeList(this.getFieldRow(
+                parentFieldNode.getData('field-instance'))));
         }
         else {
             this._fieldBeingMovedCol.set('value', null);
@@ -302,10 +303,14 @@ A.FormBuilderLayoutBuilder.prototype = {
             newCols = [];
 
         for (var i = 0; i < cols.length; i++) {
-            newCols.push(new A.LayoutCol({ size: cols[i].get('size') }));
+            newCols.push(new A.LayoutCol({
+                size: cols[i].get('size')
+            }));
         }
 
-        return new A.LayoutRow({ cols: newCols });
+        return new A.LayoutRow({
+            cols: newCols
+        });
     },
 
     /**
@@ -316,7 +321,7 @@ A.FormBuilderLayoutBuilder.prototype = {
      */
     _createLastRow: function() {
         var lastRow = this._copyLastRow(),
-            layout = this.get('layout'),
+            layout = this.getActiveLayout(),
             rows = layout.get('rows');
 
         layout.addRow(rows.length, lastRow);
@@ -355,7 +360,7 @@ A.FormBuilderLayoutBuilder.prototype = {
                 enableMoveCols: true,
                 enableMoveRows: false,
                 enableRemoveCols: false,
-                enableRemoveRows: false,
+                enableRemoveRows: false
             });
         }
 
@@ -382,7 +387,7 @@ A.FormBuilderLayoutBuilder.prototype = {
      * @return {A.LayoutRow}
      */
     _getLastRow: function() {
-        var rows = this.get('layout').get('rows');
+        var rows = this.getActiveLayout().get('rows');
 
         for (var i = rows.length - 1; i >= 0; i--) {
             if (rows[i].name === 'layout-row') {
@@ -446,29 +451,6 @@ A.FormBuilderLayoutBuilder.prototype = {
      */
     _removeLayoutCutColButtons: function() {
         this._layoutBuilder.get('removeColMoveButtons')();
-    },
-
-    /**
-     * Sets the proper position for page break button.
-     *
-     * @method _setPositionForPageBreakButton
-     * @protected
-     */
-    _setPositionForPageBreakButton: function() {
-        var addPageBreakButton,
-            addRowContainer,
-            contentBox = this.get('contentBox'),
-            isColumnMode = this._layoutBuilder.get('layout').get('isColumnMode');
-
-        addPageBreakButton = contentBox.one('.' + CSS_ADD_PAGE_BREAK);
-        addRowContainer = this._layoutBuilder.addRowArea;
-
-        if (isColumnMode) {
-            this._collapseAddPageBreakButton(addPageBreakButton, addRowContainer);
-        }
-        else {
-            this._expandAddPageBreakButton(addPageBreakButton, contentBox);
-        }
     },
 
     /**
