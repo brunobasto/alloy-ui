@@ -43,6 +43,8 @@ A.FormBuilderPages = A.Base.create('form-builder-pages', A.Widget, [], {
         '<a href="javascript:;" class="' + CSS_FORM_BUILDER_ADD_PAGE + ' glyphicon glyphicon-plus"></a>' +
         '</div></div>',
 
+    TPL_PAGINATION_ITEM: '<li class="{cssClass}"><a href="javascript:;">{content}</a></li>',
+
     /**
      * Constructor for the `A.FormBuilderPages`. Lifecycle.
      *
@@ -113,7 +115,7 @@ A.FormBuilderPages = A.Base.create('form-builder-pages', A.Widget, [], {
      * @protected
      */
     _createPagination: function() {
-        return new A.Pagination({
+        var pagination = new A.Pagination({
             boundingBox: '.' + CSS_FORM_BUILDER_PAGINATION,
             on: {
                 pageChange: A.bind(this._onCurrentPageChange, this)
@@ -125,6 +127,10 @@ A.FormBuilderPages = A.Base.create('form-builder-pages', A.Widget, [], {
             },
             total: this.get('pagesQuantity')
         });
+
+        pagination.ITEM_TEMPLATE = this.TPL_PAGINATION_ITEM;
+
+        return pagination;
     },
 
     /**
