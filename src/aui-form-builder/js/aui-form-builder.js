@@ -207,14 +207,18 @@ A.FormBuilder = A.Base.create('form-builder', A.Widget, [
     },
 
     /**
-     * Returns the `fieldInstance`'s row.
+     * Returns the `fieldListInstance`'s row.
      *
      * @method getFieldRow
-     * @param {A.FormField} fieldInstance
+     * @param {A.FormBuilderFieldList|A.FormField} val
      * @return {Node} The row where is the field parameter
      */
-    getFieldRow: function(fieldInstance) {
-        return fieldInstance.get('content').ancestor('.layout-row');
+    getFieldRow: function(val) {
+        if (A.instanceOf(val, A.FormBuilderFieldList)) {
+            return val.get('contentBox').ancestor('.layout-row');
+        }
+
+        return val.get('content').ancestor('.layout-row');
     },
 
     /**
@@ -237,7 +241,8 @@ A.FormBuilder = A.Base.create('form-builder', A.Widget, [
         }
         else {
             col = field.get('content').ancestor('.col').getData('layout-col');
-            this._makeColumnEmpty(col);
+            col.get('value').removeField(field);
+            this.getActiveLayout().normalizeColsHeight(new A.NodeList(this.getFieldRow(col.get('value'))));
         }
 
         this._updateUniqueFieldType();
@@ -322,12 +327,39 @@ A.FormBuilder = A.Base.create('form-builder', A.Widget, [
      * @param {EventFacade} event
      * @protected
      */
+    // _afterFieldSettingsModalSave: function(event) {
+    //     var field = event.field;
+
+    //     if (this._newFieldContainer) {
+    //         if (A.instanceOf(this._newFieldContainer, A.LayoutCol)) {
+    //             this._newFieldContainer.set('value', field);
+    //         }
+    //         else if (A.instanceOf(this._newFieldContainer, A.FormField)) {
+    //             this._addNestedField(
+    //                 this._newFieldContainer,
+    //                 field,
+    //                 this._newFieldContainer.get('nestedFields').length
+    //             );
+    //         }
+    //         this._newFieldContainer = null;
+    //     }
+    //     else {
+    //         this._handleEditEvent(field);
+    //         this.getActiveLayout().normalizeColsHeight(new A.NodeList(field.get('content').ancestor('.layout-row')));
+    //     }
+
+    //     this._handleCreateEvent(field);
+    //     this.disableUniqueFieldType(field);
+    // },
     _afterFieldSettingsModalSave: function(event) {
         var field = event.field;
 
         if (this._newFieldContainer) {
-            if (A.instanceOf(this._newFieldContainer, A.LayoutCol)) {
-                this._newFieldContainer.set('value', field);
+            if (A.instanceOf(this._newFieldContainer.get('value'), A.FormBuilderFieldList)) {
+                this._newFieldContainer.get('value').addField(field);
+            }
+            else if (A.instanceOf(this._newFieldContainer, A.LayoutCol)) {
+                this._newFieldContainer.set('value', new A.FormBuilderFieldList({ fields: [field] }));
             }
             else if (A.instanceOf(this._newFieldContainer, A.FormField)) {
                 this._addNestedField(
@@ -340,8 +372,9 @@ A.FormBuilder = A.Base.create('form-builder', A.Widget, [
         }
         else {
             this._handleEditEvent(field);
-            this.getActiveLayout().normalizeColsHeight(new A.NodeList(field.get('content').ancestor('.layout-row')));
         }
+
+        this.getActiveLayout().normalizeColsHeight(new A.NodeList(field.get('content').ancestor('.layout-row')));
 
         this._handleCreateEvent(field);
         this.disableUniqueFieldType(field);
