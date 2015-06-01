@@ -478,35 +478,6 @@ YUI.add('aui-form-builder-layout-builder-tests', function(Y) {
             this._formBuilder = new Y.FormBuilder().render('#container');
 
             Y.Assert.areEqual(1, this._formBuilder.get('layouts')[0].get('rows').length);
-        },
-
-        'should add a new empty row with the same layout as the last row when a new field is created in the last row': function() {
-            this._formBuilder = new Y.FormBuilder({ fieldTypes: [
-                {
-                    defaultConfig: {
-                        title: 'Title'
-                    },
-                    fieldClass: Y.FormBuilderFieldSentence,
-                    label: 'Sentence'
-                },
-                {
-                    defaultConfig: {
-                        title: 'Title'
-                    },
-                    fieldClass: Y.FormBuilderFieldText,
-                    label: 'Text'
-                }
-            ] }).render('#container');
-
-            Y.Assert.areEqual(1, this._formBuilder.get('layouts')[0].get('rows').length);
-
-            Y.one('.form-builder-empty-col-add-button').simulate('click');
-            Y.one('.modal-content .field-type').simulate('click');
-            Y.one('.text-data-editor input.form-control').set('value', 'foo');
-            Y.one('.form-builder-field-settings-save').simulate('click');
-            Y.one('.form-builder-field-settings-save').simulate('click');
-
-            Y.Assert.areEqual(2, this._formBuilder.get('layouts')[0].get('rows').length);
         }
     }));
 

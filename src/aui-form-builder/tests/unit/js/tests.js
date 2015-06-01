@@ -10,7 +10,7 @@ YUI.add('aui-form-builder-tests', function(Y) {
         },
 
         tearDown: function() {
-            this._formBuilder && this._formBuilder.destroy();
+            // this._formBuilder && this._formBuilder.destroy();
         },
 
         /**
@@ -33,20 +33,24 @@ YUI.add('aui-form-builder-tests', function(Y) {
                             }),
                             new Y.LayoutCol({
                                 size: 4,
-                                value: new Y.FormBuilderFieldSentence({
-                                    help: 'My Help',
-                                    nestedFields: [
-                                        new Y.FormBuilderFieldText({
-                                            help: 'First nested field',
-                                            title: 'Nested Field 1'
-                                        }),
-                                        new Y.FormBuilderFieldText({
-                                            help: 'Second nested field',
-                                            title: 'Nested Field 2'
-                                        })
-                                    ],
-                                    title: 'My Title'
-                                })
+                                value: new Y.FormBuilderFieldList({
+                                fields: [
+                                    new Y.FormBuilderFieldSentence({
+                                        help: 'My Help',
+                                        nestedFields: [
+                                            new Y.FormBuilderFieldText({
+                                                help: 'First nested field',
+                                                title: 'Nested Field 1'
+                                            }),
+                                            new Y.FormBuilderFieldText({
+                                                help: 'Second nested field',
+                                                title: 'Nested Field 2'
+                                            })
+                                        ],
+                                        title: 'My Title'
+                                    })
+                                ]
+                            })
                             })
                         ]
                     })
@@ -99,7 +103,7 @@ YUI.add('aui-form-builder-tests', function(Y) {
          * @protected
          */
         _clickCreateNewField: function() {
-            Y.one('.form-builder-empty-col-add-button').simulate('click');
+            Y.one('.form-builder-add-field-button').simulate('click');
         },
 
         /**
@@ -141,191 +145,195 @@ YUI.add('aui-form-builder-tests', function(Y) {
             this.wait(callback, Y.ValueChange.POLL_INTERVAL);
         },
 
-        'should have default empty layout': function() {
-            this._formBuilder = new Y.FormBuilder().render('#container');
+        // 'should have default empty layout': function() {
+        //     this._formBuilder = new Y.FormBuilder().render('#container');
 
-            Y.Assert.isNotNull(this._formBuilder.getActiveLayout());
-            Y.Assert.areEqual(1, this._formBuilder.getActiveLayout().get('rows').length);
-        },
+        //     Y.Assert.isNotNull(this._formBuilder.getActiveLayout());
+        //     Y.Assert.areEqual(1, this._formBuilder.getActiveLayout().get('rows').length);
+        // },
 
-        'should edit field and save correctly after closing modal through esc': function() {
-            var field,
-                layout,
-                row;
+        // 'should edit field and save correctly after closing modal through esc': function() {
+        //     var field,
+        //         layout,
+        //         row;
 
-            layout = new Y.Layout({
-                rows: [
-                    new Y.LayoutRow({
-                        cols: [
-                            new Y.LayoutCol({
-                                size: 4
-                            }),
-                            new Y.LayoutCol({
-                                size: 4
-                            }),
-                            new Y.LayoutCol({
-                                size: 4,
-                                value: new Y.FormBuilderFieldText({
-                                    help: 'help',
-                                    title: 'Title'
-                                })
-                            })
-                        ]
-                    })
-                ]
-            });
+        //     layout = new Y.Layout({
+        //         rows: [
+        //             new Y.LayoutRow({
+        //                 cols: [
+        //                     new Y.LayoutCol({
+        //                         size: 4
+        //                     }),
+        //                     new Y.LayoutCol({
+        //                         size: 4
+        //                     }),
+        //                     new Y.LayoutCol({
+        //                         size: 4,
+        //                         value: new Y.FormBuilderFieldText({
+        //                             help: 'help',
+        //                             title: 'Title'
+        //                         })
+        //                     })
+        //                 ]
+        //             })
+        //         ]
+        //     });
 
-            this.createFormBuilder({
-                fieldTypes: [{
-                    fieldClass: Y.FormBuilderFieldText,
-                    label: 'Text'
-                }],
-                layouts: [layout]
-            });
+        //     this.createFormBuilder({
+        //         fieldTypes: [{
+        //             fieldClass: Y.FormBuilderFieldText,
+        //             label: 'Text'
+        //         }],
+        //         layouts: [layout]
+        //     });
 
-            this._clickCreateNewField();
-            Y.one('body').simulate('keydown', {
-                keyCode: 27
-            });
+        //     this._clickCreateNewField();
+        //     Y.one('body').simulate('keydown', {
+        //         keyCode: 27
+        //     });
 
-            row = this._formBuilder.getActiveLayout().get('rows')[1].get('cols')[0];
-            Y.Assert.isNotNull(row.get('node').all('.form-builder-empty-col').item(0));
+        //     row = this._formBuilder.getActiveLayout().get('rows')[1].get('cols')[0];
+        //     Y.Assert.isNotNull(row.get('node').all('.form-builder-empty-col').item(0));
 
-            field = Y.one('.form-builder-field').getData('field-instance');
-            this._formBuilder.editField(field);
+        //     field = Y.one('.form-builder-field').getData('field-instance');
+        //     this._formBuilder.editField(field);
 
-            Y.one('.form-builder-field-settings-content').all('input[type="text"]').item(0).set('value', 'My Title');
+        //     Y.one('.form-builder-field-settings-content').all('input[type="text"]').item(0).set('value', 'My Title');
 
-            this._clickFieldSettingsSaveButton();
+        //     this._clickFieldSettingsSaveButton();
 
-            Y.Assert.isNotNull(row.get('node').all('.form-builder-empty-col').item(0));
-        },
+        //     Y.Assert.isNotNull(row.get('node').all('.form-builder-empty-col').item(0));
+        // },
 
-        'should show field settings when editField method is called': function() {
-            var field;
+        // 'should show field settings when editField method is called': function() {
+        //     var field;
 
-            this.createFormBuilder();
+        //     this.createFormBuilder();
 
-            this._clickCreateNewField();
-            this._clickFieldType();
-            this._clickFieldSettingsSaveButton();
+        //     this._clickCreateNewField();
+        //     this._clickFieldType();
+        //     this._clickFieldSettingsSaveButton();
 
-            field = Y.one('.form-builder-field').getData('field-instance');
-            this._formBuilder.editField(field);
-            Y.Assert.isFalse(Y.one('.form-builder-field-settings').hasClass('modal-dialog-hidden'));
-        },
+        //     field = Y.one('.form-builder-field').getData('field-instance');
+        //     this._formBuilder.editField(field);
+        //     Y.Assert.isFalse(Y.one('.form-builder-field-settings').hasClass('modal-dialog-hidden'));
+        // },
 
-        'should add a field in nested when addNestedField method is called': function() {
-            var field,
-                nestedField,
-                originalNestedFieldLength;
+        // 'should add a field in nested when addNestedField method is called': function() {
+        //     var currentCol,
+        //         field,
+        //         nestedField,
+        //         originalNestedFieldLength;
 
-            this.createFormBuilder();
+        //     this.createFormBuilder();
+        //     currentCol = this._formBuilder.getActiveLayout().get('rows')[0].get('cols')[2];
 
-            nestedField = this._formBuilder.getActiveLayout().get('rows')[0].get('cols')[2].get('value').get('nestedFields');
-            originalNestedFieldLength = nestedField.length;
+        //     nestedField = currentCol.get('value').get('fields')[0].get('nestedFields');
+        //     originalNestedFieldLength = nestedField.length;
 
-            field = Y.one('.form-builder-field').getData('field-instance');
-            this._formBuilder.addNestedField(field);
-            this._clickFieldType();
-            this._clickFieldSettingsSaveButton();
+        //     field = Y.one('.form-builder-field').getData('field-instance');
+        //     this._formBuilder.addNestedField(field);
+        //     this._clickFieldType();
+        //     this._clickFieldSettingsSaveButton();
 
-            Y.Assert.isTrue(nestedField.length > originalNestedFieldLength);
-        },
+        //     Y.Assert.isTrue(nestedField.length > originalNestedFieldLength);
+        // },
 
-        'should remove a field when removeField method is called': function() {
-            var col,
-                field;
+        // 'should remove a field when removeField method is called': function() {
+        //     var col,
+        //         field;
 
-            this.createFormBuilder();
+        //     this.createFormBuilder();
 
-            field = Y.one('.form-builder-field').getData('field-instance');
-            col = field.get('content').ancestor('.col').getData('layout-col');
+        //     field = Y.one('.form-builder-field').getData('field-instance');
+        //     col = field.get('content').ancestor('.col').getData('layout-col');
 
-            this._formBuilder.removeField(field);
-            Y.Assert.isNotNull(col.get('node').one('.form-builder-empty-col'));
-            Y.Assert.isNull(col.get('node').one('.form-builder-field'));
+        //     Y.Assert.areEqual(1, col.get('value').get('fields').length);
 
-            Y.Assert.isFalse(col.get('movableContent'));
-        },
+        //     this._formBuilder.removeField(field);
+        //     Y.Assert.isNotNull(col.get('node').one('.form-builder-empty-col'));
+        //     Y.Assert.isNull(col.get('node').one('.form-builder-field'));
+        //     Y.Assert.areEqual(0, col.get('value').get('fields').length);
+        // },
 
-        'should remove a nested field when clicking on remove button': function() {
-            var col,
-                nestedField;
+        // 'should remove a nested field when clicking on remove button': function() {
+        //     var col,
+        //         nestedField,
+        //         nestedFields;
 
-            this.createFormBuilder();
+        //     this.createFormBuilder();
 
-            col = this._formBuilder.getActiveLayout().get('rows')[0].get('cols')[2];
-            nestedField = col.get('value').get('nestedFields')[0];
-            this._formBuilder.removeField(nestedField);
+        //     col = this._formBuilder.getActiveLayout().get('rows')[0].get('cols')[2];
+        //     nestedFields = col.get('value').get('fields')[0].get('nestedFields');
+        //     nestedField = nestedFields[0];
+        //     this._formBuilder.removeField(nestedField);
 
-            Y.Assert.isNull(col.get('node').one('.form-builder-empty-col'));
-            Y.Assert.areEqual(1, col.get('value').get('nestedFields').length);
-        },
+        //     Y.Assert.areEqual(1, nestedFields.length);
+        // },
 
-        'should resize the row when a nested field is edited': function() {
-            var field,
-                heightAfterMode,
-                heightBeforeMode,
-                settingsPane;
+        // 'should resize the row when a nested field is edited': function() {
+        //     var field,
+        //         heightAfterMode,
+        //         heightBeforeMode,
+        //         settingsPane;
 
-            this.createFormBuilder();
+        //     this.createFormBuilder();
 
-            heightAfterMode = Y.all('.layout-row-container-row').item(0).getStyle('height');
+        //     heightAfterMode = Y.all('.layout-row-container-row').item(0).getStyle('height');
 
-            field = Y.one('.form-builder-field-nested .form-builder-field').getData('field-instance');
-            this._formBuilder.editField(field);
+        //     field = Y.one('.form-builder-field-nested .form-builder-field').getData('field-instance');
+        //     this._formBuilder.editField(field);
 
-            settingsPane = Y.one('.form-builder-field-settings');
-            settingsPane.all('.radio-group-data-editor-button').item(1).simulate('click');
+        //     settingsPane = Y.one('.form-builder-field-settings');
+        //     settingsPane.all('.radio-group-data-editor-button').item(1).simulate('click');
 
-            this._clickFieldSettingsSaveButton();
+        //     this._clickFieldSettingsSaveButton();
 
-            heightBeforeMode = Y.all('.layout-row-container-row').item(0).getStyle('height');
+        //     heightBeforeMode = Y.all('.layout-row-container-row').item(0).getStyle('height');
 
-            Y.Assert.isTrue(heightAfterMode < heightBeforeMode);
-        },
+        //     Y.Assert.isTrue(heightAfterMode < heightBeforeMode);
+        // },
 
-        'should fill initial empty columns with content': function() {
-            this.createFormBuilder();
+        // 'should fill initial empty columns with content': function() {
+        //     this.createFormBuilder();
 
-            Y.Assert.areEqual(
-                5,
-                Y.one('.form-builder-layout').all('.form-builder-empty-col').size()
-            );
-        },
+        //     Y.Assert.areEqual(
+        //         6,
+        //         Y.one('.form-builder-layout').all('.form-builder-empty-col').size()
+        //     );
+        // },
 
-        'should turn col with null value into empty column': function() {
-            var col;
+        // 'should turn col with null value into empty column': function() {
+        //     var col;
 
-            this.createFormBuilder();
+        //     this.createFormBuilder();
 
-            col = this._formBuilder.getActiveLayout().get('rows')[1].get('cols')[2];
-            col.set('value', null);
+        //     col = this._formBuilder.getActiveLayout().get('rows')[1].get('cols')[2];
+        //     col.set('value', null);
 
-            Y.Assert.isNotNull(col.get('node').one('.form-builder-empty-col'));
-        },
+        //     Y.Assert.isNotNull(col.get('node').one('.form-builder-empty-col'));
+        // },
 
-        'should fill empty columns for new rows': function() {
-            this.createFormBuilder();
+        // 'should fill empty columns for new rows': function() {
+        //     this.createFormBuilder();
 
-            this._formBuilder.getActiveLayout().addRow(0, new Y.LayoutRow({
-                cols: [
-                    new Y.LayoutCol({
-                        size: 6
-                    }),
-                    new Y.LayoutCol({
-                        size: 6,
-                        value: {content: 'Something'}
-                    })
-                ]
-            }));
+        //     this._formBuilder.getActiveLayout().addRow(0, new Y.LayoutRow({
+        //         cols: [
+        //             new Y.LayoutCol({
+        //                 size: 6
+        //             }),
+        //             new Y.LayoutCol({
+        //                 size: 6,
+        //                 value: {content: 'Something'}
+        //             })
+        //         ]
+        //     }));
 
-            Y.Assert.areEqual(
-                6,
-                Y.one('.form-builder-layout').all('.form-builder-empty-col').size()
-            );
-        },
+        //     Y.Assert.areEqual(
+        //         6,
+        //         Y.one('.form-builder-layout').all('.form-builder-empty-col').size()
+        //     );
+        // },
 
         'should fill empty columns for new cols': function() {
             this.createFormBuilder();
@@ -346,434 +354,434 @@ YUI.add('aui-form-builder-tests', function(Y) {
             );
         },
 
-        'should fill empty columns for new layouts': function() {
-            var layout = new Y.Layout({
-                rows: [
-                    new Y.LayoutRow({
-                        cols: [
-                            new Y.LayoutCol({
-                                size: 6
-                            }),
-                            new Y.LayoutCol({
-                                size: 6,
-                                value: {content: 'Something'}
-                            })
-                        ]
-                    })
-                ]
-            });
+        // 'should fill empty columns for new layouts': function() {
+        //     var layout = new Y.Layout({
+        //         rows: [
+        //             new Y.LayoutRow({
+        //                 cols: [
+        //                     new Y.LayoutCol({
+        //                         size: 6
+        //                     }),
+        //                     new Y.LayoutCol({
+        //                         size: 6,
+        //                         value: {content: 'Something'}
+        //                     })
+        //                 ]
+        //             })
+        //         ]
+        //     });
 
-            this.createFormBuilder();
-
-            this._formBuilder.set('layouts', [layout]);
+        //     this.createFormBuilder();
+
+        //     this._formBuilder.set('layouts', [layout]);
 
-            Y.Assert.areEqual(
-                1,
-                Y.all('.form-builder-empty-col').size()
-            );
+        //     Y.Assert.areEqual(
+        //         1,
+        //         Y.all('.form-builder-empty-col').size()
+        //     );
 
-            this._formBuilder.getActiveLayout().addRow(0, new Y.LayoutRow({
-                cols: [
-                    new Y.LayoutCol({
-                        size: 6
-                    }),
-                    new Y.LayoutCol({
-                        size: 6,
-                        value: {content: 'Something'}
-                    })
-                ]
-            }));
-
-            Y.Assert.areEqual(
-                2,
-                Y.all('.form-builder-empty-col').size()
-            );
-        },
+        //     this._formBuilder.getActiveLayout().addRow(0, new Y.LayoutRow({
+        //         cols: [
+        //             new Y.LayoutCol({
+        //                 size: 6
+        //             }),
+        //             new Y.LayoutCol({
+        //                 size: 6,
+        //                 value: {content: 'Something'}
+        //             })
+        //         ]
+        //     }));
+
+        //     Y.Assert.areEqual(
+        //         2,
+        //         Y.all('.form-builder-empty-col').size()
+        //     );
+        // },
 
-        'should make empty columns unmovable': function() {
-            var emptyCol;
-
-            this.createFormBuilder();
-            emptyCol = this._formBuilder.getActiveLayout().get('rows')[1].get('cols')[0];
-
-            Y.Assert.isFalse(emptyCol.get('movableContent'));
-        },
-
-        'should open field types modal': function() {
-            this.createFormBuilder();
-
-            this._clickCreateNewField();
-            Y.Assert.isNotNull(Y.one('.form-builder-modal'), 'Field types modal should have been opened');
-        },
-
-        'should add a field to a column': function() {
-            var col;
-
-            this.createFormBuilder();
-            col = this._formBuilder.getActiveLayout().get('rows')[0].get('cols')[0];
-            Y.Assert.isFalse(Y.instanceOf(col.get('value'), Y.FormBuilderFieldSentence));
-
-            this._clickCreateNewField();
-            this._clickFieldType();
-            this._clickFieldSettingsSaveButton();
-
-            Y.Assert.isTrue(Y.instanceOf(col.get('value'), Y.FormBuilderFieldSentence));
-        },
-
-        'should make field columns movable': function() {
-            var col;
-
-            this.createFormBuilder();
-
-            col = this._formBuilder.getActiveLayout().get('rows')[0].get('cols')[0];
-            Y.Assert.isFalse(col.get('movableContent'));
-
-            this._clickCreateNewField();
-            this._clickFieldType();
-            this._clickFieldSettingsSaveButton();
-
-            Y.Assert.isTrue(col.get('movableContent'));
-        },
-
-        'should change to layout mode when menu button is clicked': function() {
-            var contentBox;
-
-            this.createFormBuilder();
-
-            contentBox = this._formBuilder.get('contentBox');
-            contentBox.one('.form-builder-menu-button').simulate('click');
-            contentBox.one('.form-builder-edit-layout-button').simulate('click');
-
-            Y.Assert.areEqual(Y.FormBuilder.MODES.LAYOUT, this._formBuilder.get('mode'));
-
-            contentBox.one('.form-builder-header-back').simulate('click');
-            Y.Assert.areEqual(Y.FormBuilder.MODES.REGULAR, this._formBuilder.get('mode'));
-        },
-
-        'should change to layout mode when menu button is key pressed': function() {
-            var contentBox;
-
-            this.createFormBuilder();
-
-            contentBox = this._formBuilder.get('contentBox');
-            contentBox.one('.form-builder-menu-button').simulate('keypress', { keyCode: 13 });
-            contentBox.one('.form-builder-edit-layout-button').simulate('keypress', { keyCode: 13 });
-
-            Y.Assert.areEqual(Y.FormBuilder.MODES.LAYOUT, this._formBuilder.get('mode'));
-
-            contentBox.one('.form-builder-header-back').simulate('keypress', { keyCode: 13 });
-            Y.Assert.areEqual(Y.FormBuilder.MODES.REGULAR, this._formBuilder.get('mode'));
-        },
-
-        'should show corret label when open settings editor': function() {
-            var field;
-
-            this.createFormBuilder();
-
-            field = Y.one('.form-builder-field').getData('field-instance');
-            this._formBuilder.editField(field);
-            Y.Assert.areEqual(Y.one('.form-builder-field-settings-label').getHTML(), 'Sentence');
-
-            field = Y.all('.form-builder-field').item(1).getData('field-instance');
-            Y.one('.form-builder-field-settings-cancel').simulate('mousemove');
-            Y.one('.form-builder-field-settings-cancel').simulate('click');
-            this._formBuilder.editField(field);
-            Y.Assert.areEqual(Y.one('.form-builder-field-settings-label').getHTML(), 'Text');
-        },
-
-        'should disable adding unique field already used by creating one': function() {
-            var layout;
-
-            layout = new Y.Layout({
-                rows: [new Y.LayoutRow()]
-            });
-
-            this.createFormBuilder({
-                fieldTypes: [{
-                    defaultConfig: {
-                        title: 'Title'
-                    },
-                    fieldClass: Y.FormBuilderFieldSentence,
-                    unique: true
-                }],
-                layouts: [layout]
-            });
-
-            this._clickCreateNewField();
-            this._clickFieldType();
-            this._clickFieldSettingsSaveButton();
-
-            this._formBuilder.showFieldsPanel();
-            Y.Assert.isTrue(Y.one('.field-type').hasClass('field-type-disabled'));
-        },
-
-        'should enable unique type after its last instance is removed': function() {
-            var field;
-
-            this.createFormBuilder({
-                fieldTypes: [{
-                    fieldClass: Y.FormBuilderFieldSentence,
-                    unique: true
-                }]
-            });
-
-            this._formBuilder.showFieldsPanel();
-            Y.Assert.isTrue(Y.one('.field-type').hasClass('field-type-disabled'));
-            this._formBuilder.hideFieldsPanel();
-
-            field = Y.one('.form-builder-field').getData('field-instance');
-            this._formBuilder.removeField(field);
-
-            this._formBuilder.showFieldsPanel();
-            Y.Assert.isFalse(Y.one('.field-type').hasClass('field-type-disabled'));
-        },
-
-        'should disable adding unique field already used when setting a new layout': function() {
-            var layout = new Y.Layout({
-                rows: [
-                    new Y.LayoutRow({
-                        cols: [
-                            new Y.LayoutCol({
-                                size: 4,
-                                value: new Y.FormBuilderFieldText({
-                                    title: 'Title'
-                                })
-                            })
-                        ]
-                    })
-                ]
-            });
-
-            this.createFormBuilder({
-                fieldTypes: [{
-                    fieldClass: Y.FormBuilderFieldText,
-                    unique: true
-                }],
-                layouts: [new Y.Layout()]
-            });
-
-            this._formBuilder.showFieldsPanel();
-            Y.Assert.isFalse(Y.one('.field-type').hasClass('field-type-disabled'));
-            this._formBuilder.hideFieldsPanel();
-
-            this._formBuilder.set('layouts', [layout]);
-
-            this._formBuilder.showFieldsPanel();
-            Y.Assert.isTrue(Y.one('.field-type').hasClass('field-type-disabled'));
-        },
-
-        'should disable adding unique field already used when setting a new column': function() {
-            this.createFormBuilder({
-                fieldTypes: [{
-                    fieldClass: Y.FormBuilderFieldText,
-                    unique: true
-                }],
-                layouts: [new Y.Layout()]
-            });
-
-            this._formBuilder.showFieldsPanel();
-            Y.Assert.isFalse(Y.one('.field-type').hasClass('field-type-disabled'));
-            this._formBuilder.hideFieldsPanel();
-
-            this._formBuilder.getActiveLayout().set('rows',
-                [
-                    new Y.LayoutRow({
-                        cols: [
-                            new Y.LayoutCol({
-                                size: 4,
-                                value: new Y.FormBuilderFieldText({
-                                    title: 'Monarch'
-                                })
-                            })
-                        ]
-                    })
-                ]
-            );
-
-            this._formBuilder.showFieldsPanel();
-            Y.Assert.isTrue(Y.one('.field-type').hasClass('field-type-disabled'));
-        },
-
-        'should disable adding unique field already used when setting a new row': function() {
-            var layout;
-
-            layout = new Y.Layout({
-                rows: [new Y.LayoutRow()]
-            });
-
-            this.createFormBuilder({
-                fieldTypes: [{
-                    fieldClass: Y.FormBuilderFieldText,
-                    unique: true
-                }],
-                layouts: [layout]
-            });
-
-            this._formBuilder.showFieldsPanel();
-            Y.Assert.isFalse(Y.one('.field-type').hasClass('field-type-disabled'));
-            this._formBuilder.hideFieldsPanel();
-
-            this._formBuilder.getActiveLayout().get('rows')[0].set('cols', [
-                new Y.LayoutCol({
-                    size: 12,
-                    value: new Y.FormBuilderFieldText({
-                        help: 'not just anybody',
-                        title: 'Monarch'
-                    })
-                })
-            ]);
-
-            this._formBuilder.showFieldsPanel();
-            Y.Assert.isTrue(Y.one('.field-type').hasClass('field-type-disabled'));
-        },
-
-        'should open new field type selection when key press on add field button': function() {
-            var addFieldButton;
-
-            this.createFormBuilder();
-
-            addFieldButton = Y.one('.form-builder-empty-col-add-button');
-            addFieldButton.focus();
-            addFieldButton.simulate('keydown', {
-                keyCode: 13
-            });
-
-            this._formBuilder._fieldTypesModal.get('visible');
-
-            Y.Assert.isTrue(this._formBuilder._fieldTypesModal.get('visible'));
-        },
-
-        'should show toolbar settings when focus on a field': function() {
-            var node;
-
-            this.createFormBuilder();
-
-            node = Y.one('.form-builder-field');
-
-            this._formBuilder._onFocus({ target: node });
-
-            Y.Assert.isNotNull(Y.one('.form-builder-field-toolbar'));
-        },
-
-        'should be able to create a layout using an object instead of an instance of Layout': function() {
-            var config,
-                layout;
-
-            layout = {
-                rows: [
-                    new Y.LayoutRow({
-                        cols: [
-                            new Y.LayoutCol({
-                                size: 12
-                            })
-                        ]
-                    })
-                ]
-            };
-
-            config = {
-                layouts: [layout]
-            };
-
-            this.createFormBuilder(config);
-            Y.Assert.isTrue(Y.instanceOf(this._formBuilder.getActiveLayout(), Y.Layout));
-        },
-
-        'should fire create event after a new field has been created': function() {
-            var created = false,
-                field;
-
-            this.createFormBuilder();
-            this._formBuilder.on('create', function (event) {
-                field = event.field;
-                created = true;
-            });
-
-            this._clickCreateNewField();
-            Y.Assert.isFalse(created);
-
-            this._clickFieldType();
-            Y.Assert.isFalse(created);
-
-            this._clickFieldSettingsSaveButton();
-            Y.Assert.isTrue(created);
-
-            Y.Assert.areEqual(Y.one('.form-builder-field').getData('field-instance'), field);
-        },
-
-        'should fire edit event after a field has been edited': function() {
-            var edited = false,
-                field,
-                settingsPane;
-
-            this.createFormBuilder();
-            this._formBuilder.on('edit', function (event) {
-                Y.Assert.areEqual(field, event.field);
-                edited = true;
-            });
-
-            field = Y.one('.form-builder-field-nested .form-builder-field').getData('field-instance');
-            this._formBuilder.editField(field);
-            Y.Assert.isFalse(edited);
-
-            settingsPane = Y.one('.form-builder-field-settings');
-            settingsPane.all('.radio-group-data-editor-button').item(1).simulate('click');
-
-            Y.Assert.isFalse(edited);
-
-            this._clickFieldSettingsSaveButton();
-            Y.Assert.isTrue(edited);
-        },
-
-        'should fire remove event after a field has been removed': function() {
-            var col,
-                field,
-                removed = false;
-
-            this.createFormBuilder();
-            this._formBuilder.on('remove', function (event) {
-                Y.Assert.areEqual(field, event.field);
-                removed = true;
-            });
-
-            field = Y.one('.form-builder-field').getData('field-instance');
-            col = field.get('content').ancestor('.col').getData('layout-col');
-
-            this._formBuilder.removeField(field);
-            Y.Assert.isTrue(removed);
-        },
-
-        'should add a new page when add page button clicked': function() {
-            this.createFormBuilder();
-
-            Y.Assert.areEqual(1, this._formBuilder.get('layouts').length);
-            Y.one('.form-builder-pages-add-page').simulate('click');
-            Y.Assert.areEqual(2, this._formBuilder.get('layouts').length);
-        },
-
-        'should remove the current page when remove page button clicked': function() {
-            this.createFormBuilder({
-                layouts: [new Y.Layout(), new Y.Layout()]
-            });
-
-            Y.Assert.areEqual(2, this._formBuilder.get('layouts').length);
-            Y.one('.form-builder-pages-remove-page').simulate('click');
-            Y.Assert.areEqual(1, this._formBuilder.get('layouts').length);
-            Y.one('.form-builder-pages-remove-page').simulate('click');
-            Y.Assert.areEqual(1, this._formBuilder.get('layouts').length);
-        },
-
-        'should update page when page selected': function() {
-            this.createFormBuilder();
-
-            Y.one('.form-builder-pages-add-page').simulate('click');
-
-            Y.Assert.areEqual(1, this._formBuilder.getActiveLayout().get('rows').length);
-            Y.one('.pagination-control').simulate('click');
-            Y.Assert.areEqual(2, this._formBuilder.getActiveLayout().get('rows').length);
-            Y.one('.pagination-control').simulate('click');
-            Y.Assert.areEqual(1, this._formBuilder.getActiveLayout().get('rows').length);
-        }
+        // 'should make empty columns unmovable': function() {
+        //     var emptyCol;
+
+        //     this.createFormBuilder();
+        //     emptyCol = this._formBuilder.getActiveLayout().get('rows')[1].get('cols')[0];
+
+        //     Y.Assert.isFalse(emptyCol.get('movableContent'));
+        // },
+
+        // 'should open field types modal': function() {
+        //     this.createFormBuilder();
+
+        //     this._clickCreateNewField();
+        //     Y.Assert.isNotNull(Y.one('.form-builder-modal'), 'Field types modal should have been opened');
+        // },
+
+        // 'should add a field to a column': function() {
+        //     var col;
+
+        //     this.createFormBuilder();
+        //     col = this._formBuilder.getActiveLayout().get('rows')[0].get('cols')[0];
+        //     Y.Assert.isFalse(Y.instanceOf(col.get('value'), Y.FormBuilderFieldSentence));
+
+        //     this._clickCreateNewField();
+        //     this._clickFieldType();
+        //     this._clickFieldSettingsSaveButton();
+
+        //     Y.Assert.isTrue(Y.instanceOf(col.get('value'), Y.FormBuilderFieldSentence));
+        // },
+
+        // 'should make field columns movable': function() {
+        //     var col;
+
+        //     this.createFormBuilder();
+
+        //     col = this._formBuilder.getActiveLayout().get('rows')[0].get('cols')[0];
+        //     Y.Assert.isFalse(col.get('movableContent'));
+
+        //     this._clickCreateNewField();
+        //     this._clickFieldType();
+        //     this._clickFieldSettingsSaveButton();
+
+        //     Y.Assert.isTrue(col.get('movableContent'));
+        // },
+
+        // 'should change to layout mode when menu button is clicked': function() {
+        //     var contentBox;
+
+        //     this.createFormBuilder();
+
+        //     contentBox = this._formBuilder.get('contentBox');
+        //     contentBox.one('.form-builder-menu-button').simulate('click');
+        //     contentBox.one('.form-builder-edit-layout-button').simulate('click');
+
+        //     Y.Assert.areEqual(Y.FormBuilder.MODES.LAYOUT, this._formBuilder.get('mode'));
+
+        //     contentBox.one('.form-builder-header-back').simulate('click');
+        //     Y.Assert.areEqual(Y.FormBuilder.MODES.REGULAR, this._formBuilder.get('mode'));
+        // },
+
+        // 'should change to layout mode when menu button is key pressed': function() {
+        //     var contentBox;
+
+        //     this.createFormBuilder();
+
+        //     contentBox = this._formBuilder.get('contentBox');
+        //     contentBox.one('.form-builder-menu-button').simulate('keypress', { keyCode: 13 });
+        //     contentBox.one('.form-builder-edit-layout-button').simulate('keypress', { keyCode: 13 });
+
+        //     Y.Assert.areEqual(Y.FormBuilder.MODES.LAYOUT, this._formBuilder.get('mode'));
+
+        //     contentBox.one('.form-builder-header-back').simulate('keypress', { keyCode: 13 });
+        //     Y.Assert.areEqual(Y.FormBuilder.MODES.REGULAR, this._formBuilder.get('mode'));
+        // },
+
+        // 'should show corret label when open settings editor': function() {
+        //     var field;
+
+        //     this.createFormBuilder();
+
+        //     field = Y.one('.form-builder-field').getData('field-instance');
+        //     this._formBuilder.editField(field);
+        //     Y.Assert.areEqual(Y.one('.form-builder-field-settings-label').getHTML(), 'Sentence');
+
+        //     field = Y.all('.form-builder-field').item(1).getData('field-instance');
+        //     Y.one('.form-builder-field-settings-cancel').simulate('mousemove');
+        //     Y.one('.form-builder-field-settings-cancel').simulate('click');
+        //     this._formBuilder.editField(field);
+        //     Y.Assert.areEqual(Y.one('.form-builder-field-settings-label').getHTML(), 'Text');
+        // },
+
+        // 'should disable adding unique field already used by creating one': function() {
+        //     var layout;
+
+        //     layout = new Y.Layout({
+        //         rows: [new Y.LayoutRow()]
+        //     });
+
+        //     this.createFormBuilder({
+        //         fieldTypes: [{
+        //             defaultConfig: {
+        //                 title: 'Title'
+        //             },
+        //             fieldClass: Y.FormBuilderFieldSentence,
+        //             unique: true
+        //         }],
+        //         layouts: [layout]
+        //     });
+
+        //     this._clickCreateNewField();
+        //     this._clickFieldType();
+        //     this._clickFieldSettingsSaveButton();
+
+        //     this._formBuilder.showFieldsPanel();
+        //     Y.Assert.isTrue(Y.one('.field-type').hasClass('field-type-disabled'));
+        // },
+
+        // 'should enable unique type after its last instance is removed': function() {
+        //     var field;
+
+        //     this.createFormBuilder({
+        //         fieldTypes: [{
+        //             fieldClass: Y.FormBuilderFieldSentence,
+        //             unique: true
+        //         }]
+        //     });
+
+        //     this._formBuilder.showFieldsPanel();
+        //     Y.Assert.isTrue(Y.one('.field-type').hasClass('field-type-disabled'));
+        //     this._formBuilder.hideFieldsPanel();
+
+        //     field = Y.one('.form-builder-field').getData('field-instance');
+        //     this._formBuilder.removeField(field);
+
+        //     this._formBuilder.showFieldsPanel();
+        //     Y.Assert.isFalse(Y.one('.field-type').hasClass('field-type-disabled'));
+        // },
+
+        // 'should disable adding unique field already used when setting a new layout': function() {
+        //     var layout = new Y.Layout({
+        //         rows: [
+        //             new Y.LayoutRow({
+        //                 cols: [
+        //                     new Y.LayoutCol({
+        //                         size: 4,
+        //                         value: new Y.FormBuilderFieldText({
+        //                             title: 'Title'
+        //                         })
+        //                     })
+        //                 ]
+        //             })
+        //         ]
+        //     });
+
+        //     this.createFormBuilder({
+        //         fieldTypes: [{
+        //             fieldClass: Y.FormBuilderFieldText,
+        //             unique: true
+        //         }],
+        //         layouts: [new Y.Layout()]
+        //     });
+
+        //     this._formBuilder.showFieldsPanel();
+        //     Y.Assert.isFalse(Y.one('.field-type').hasClass('field-type-disabled'));
+        //     this._formBuilder.hideFieldsPanel();
+
+        //     this._formBuilder.set('layouts', [layout]);
+
+        //     this._formBuilder.showFieldsPanel();
+        //     Y.Assert.isTrue(Y.one('.field-type').hasClass('field-type-disabled'));
+        // },
+
+        // 'should disable adding unique field already used when setting a new column': function() {
+        //     this.createFormBuilder({
+        //         fieldTypes: [{
+        //             fieldClass: Y.FormBuilderFieldText,
+        //             unique: true
+        //         }],
+        //         layouts: [new Y.Layout()]
+        //     });
+
+        //     this._formBuilder.showFieldsPanel();
+        //     Y.Assert.isFalse(Y.one('.field-type').hasClass('field-type-disabled'));
+        //     this._formBuilder.hideFieldsPanel();
+
+        //     this._formBuilder.getActiveLayout().set('rows',
+        //         [
+        //             new Y.LayoutRow({
+        //                 cols: [
+        //                     new Y.LayoutCol({
+        //                         size: 4,
+        //                         value: new Y.FormBuilderFieldText({
+        //                             title: 'Monarch'
+        //                         })
+        //                     })
+        //                 ]
+        //             })
+        //         ]
+        //     );
+
+        //     this._formBuilder.showFieldsPanel();
+        //     Y.Assert.isTrue(Y.one('.field-type').hasClass('field-type-disabled'));
+        // },
+
+        // 'should disable adding unique field already used when setting a new row': function() {
+        //     var layout;
+
+        //     layout = new Y.Layout({
+        //         rows: [new Y.LayoutRow()]
+        //     });
+
+        //     this.createFormBuilder({
+        //         fieldTypes: [{
+        //             fieldClass: Y.FormBuilderFieldText,
+        //             unique: true
+        //         }],
+        //         layouts: [layout]
+        //     });
+
+        //     this._formBuilder.showFieldsPanel();
+        //     Y.Assert.isFalse(Y.one('.field-type').hasClass('field-type-disabled'));
+        //     this._formBuilder.hideFieldsPanel();
+
+        //     this._formBuilder.getActiveLayout().get('rows')[0].set('cols', [
+        //         new Y.LayoutCol({
+        //             size: 12,
+        //             value: new Y.FormBuilderFieldText({
+        //                 help: 'not just anybody',
+        //                 title: 'Monarch'
+        //             })
+        //         })
+        //     ]);
+
+        //     this._formBuilder.showFieldsPanel();
+        //     Y.Assert.isTrue(Y.one('.field-type').hasClass('field-type-disabled'));
+        // },
+
+        // 'should open new field type selection when key press on add field button': function() {
+        //     var addFieldButton;
+
+        //     this.createFormBuilder();
+
+        //     addFieldButton = Y.one('.form-builder-add-field-button');
+        //     addFieldButton.focus();
+        //     addFieldButton.simulate('keydown', {
+        //         keyCode: 13
+        //     });
+
+        //     this._formBuilder._fieldTypesModal.get('visible');
+
+        //     Y.Assert.isTrue(this._formBuilder._fieldTypesModal.get('visible'));
+        // },
+
+        // 'should show toolbar settings when focus on a field': function() {
+        //     var node;
+
+        //     this.createFormBuilder();
+
+        //     node = Y.one('.form-builder-field');
+
+        //     this._formBuilder._onFocus({ target: node });
+
+        //     Y.Assert.isNotNull(Y.one('.form-builder-field-toolbar'));
+        // },
+
+        // 'should be able to create a layout using an object instead of an instance of Layout': function() {
+        //     var config,
+        //         layout;
+
+        //     layout = {
+        //         rows: [
+        //             new Y.LayoutRow({
+        //                 cols: [
+        //                     new Y.LayoutCol({
+        //                         size: 12
+        //                     })
+        //                 ]
+        //             })
+        //         ]
+        //     };
+
+        //     config = {
+        //         layouts: [layout]
+        //     };
+
+        //     this.createFormBuilder(config);
+        //     Y.Assert.isTrue(Y.instanceOf(this._formBuilder.getActiveLayout(), Y.Layout));
+        // },
+
+        // 'should fire create event after a new field has been created': function() {
+        //     var created = false,
+        //         field;
+
+        //     this.createFormBuilder();
+        //     this._formBuilder.on('create', function (event) {
+        //         field = event.field;
+        //         created = true;
+        //     });
+
+        //     this._clickCreateNewField();
+        //     Y.Assert.isFalse(created);
+
+        //     this._clickFieldType();
+        //     Y.Assert.isFalse(created);
+
+        //     this._clickFieldSettingsSaveButton();
+        //     Y.Assert.isTrue(created);
+
+        //     Y.Assert.areEqual(Y.one('.form-builder-field').getData('field-instance'), field);
+        // },
+
+        // 'should fire edit event after a field has been edited': function() {
+        //     var edited = false,
+        //         field,
+        //         settingsPane;
+
+        //     this.createFormBuilder();
+        //     this._formBuilder.on('edit', function (event) {
+        //         Y.Assert.areEqual(field, event.field);
+        //         edited = true;
+        //     });
+
+        //     field = Y.one('.form-builder-field-nested .form-builder-field').getData('field-instance');
+        //     this._formBuilder.editField(field);
+        //     Y.Assert.isFalse(edited);
+
+        //     settingsPane = Y.one('.form-builder-field-settings');
+        //     settingsPane.all('.radio-group-data-editor-button').item(1).simulate('click');
+
+        //     Y.Assert.isFalse(edited);
+
+        //     this._clickFieldSettingsSaveButton();
+        //     Y.Assert.isTrue(edited);
+        // },
+
+        // 'should fire remove event after a field has been removed': function() {
+        //     var col,
+        //         field,
+        //         removed = false;
+
+        //     this.createFormBuilder();
+        //     this._formBuilder.on('remove', function (event) {
+        //         Y.Assert.areEqual(field, event.field);
+        //         removed = true;
+        //     });
+
+        //     field = Y.one('.form-builder-field').getData('field-instance');
+        //     col = field.get('content').ancestor('.col').getData('layout-col');
+
+        //     this._formBuilder.removeField(field);
+        //     Y.Assert.isTrue(removed);
+        // },
+
+        // 'should add a new page when add page button clicked': function() {
+        //     this.createFormBuilder();
+
+        //     Y.Assert.areEqual(1, this._formBuilder.get('layouts').length);
+        //     Y.one('.form-builder-pages-add-page').simulate('click');
+        //     Y.Assert.areEqual(2, this._formBuilder.get('layouts').length);
+        // },
+
+        // 'should remove the current page when remove page button clicked': function() {
+        //     this.createFormBuilder({
+        //         layouts: [new Y.Layout(), new Y.Layout()]
+        //     });
+
+        //     Y.Assert.areEqual(2, this._formBuilder.get('layouts').length);
+        //     Y.one('.form-builder-pages-remove-page').simulate('click');
+        //     Y.Assert.areEqual(1, this._formBuilder.get('layouts').length);
+        //     Y.one('.form-builder-pages-remove-page').simulate('click');
+        //     Y.Assert.areEqual(1, this._formBuilder.get('layouts').length);
+        // },
+
+        // 'should update page when page selected': function() {
+        //     this.createFormBuilder();
+
+        //     Y.one('.form-builder-pages-add-page').simulate('click');
+
+        //     Y.Assert.areEqual(1, this._formBuilder.getActiveLayout().get('rows').length);
+        //     Y.one('.pagination-control').simulate('click');
+        //     Y.Assert.areEqual(2, this._formBuilder.getActiveLayout().get('rows').length);
+        //     Y.one('.pagination-control').simulate('click');
+        //     Y.Assert.areEqual(1, this._formBuilder.getActiveLayout().get('rows').length);
+        // }
     }));
 
     Y.Test.Runner.add(suite);

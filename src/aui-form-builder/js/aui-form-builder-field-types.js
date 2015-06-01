@@ -252,29 +252,54 @@ A.FormBuilderFieldTypes.prototype = {
      * Check all Field created if there is a someone of the same type
      * of the parameter.
      *
-     * @method _hasFieldTypeAll
+     * @method _checkActiveLayoutHasFieldType
      * @param {Object} fieldType
      * @return {Boolean}
      * @protected
      */
-    _hasFieldTypeAll: function(fieldType) {
+    _checkActiveLayoutHasFieldType: function(fieldType) {
         var col,
             cols,
-            field,
+            fieldList,
             row,
             rows = this.getActiveLayout().get('rows');
 
         for (row = 0; row < rows.length; row++) {
             cols = rows[row].get('cols');
             for (col = 0; col < cols.length; col++) {
-                field = cols[col].get('value');
-                if (field && (field instanceof A.FormField)) {
+                fieldList = cols[col].get('value');
+                if (A.instanceOf(fieldList, A.FormBuilderFieldList) &&
+                    this._checkListHasFieldType(fieldList, fieldType)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    },
+
+    /**
+     * Fired after the `fields` attribute is set.
+     *
+     * @method _checkListHasFieldType
+     * @param {A.FormBuilderFIeldList} fieldList
+     * @param {Object} fieldType
+     * @return {Boolean}
+     * @protected
+     */
+    _checkListHasFieldType: function(fieldList, fieldType) {
+        var field,
+            fields = fieldList.get('fields'),
+            i;
+
+            for (i = 0; i < fields.length; i++) {
+                field = fields[i];
+                if (field) {
                     if (this._hasFieldType(fieldType, field)) {
                         return true;
                     }
                 }
             }
-        }
 
         return false;
     },
@@ -406,7 +431,7 @@ A.FormBuilderFieldTypes.prototype = {
 
         A.Array.each(instance.get('fieldTypes'), function (fieldType) {
             if (fieldType.get('unique')) {
-                fieldType.set('disabled', instance._hasFieldTypeAll(fieldType));
+                fieldType.set('disabled', instance._checkActiveLayoutHasFieldType(fieldType));
             }
         });
     }

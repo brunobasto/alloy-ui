@@ -172,6 +172,11 @@ A.FormBuilderLayoutBuilder.prototype = {
                 this._createLastRow();
                 break;
             }
+            else if (A.instanceOf(cols[i].get('value'), A.FormBuilderFieldList) &&
+                (cols[i].get('value').get('fields').length > 0)) {
+                this._createLastRow();
+                break;
+            }
         }
     },
 
