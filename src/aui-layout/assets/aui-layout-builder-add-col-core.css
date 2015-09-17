@@ -42,3 +42,9 @@
 .layout-builder-add-col:hover .layout-builder-add-col-text {
     display: inline;
 }
+
+.layout-builder-resize-col-icon {
+    background-image: url(add-col-handle.png);
+    height: 24px;
+    width: 24px;
+}
