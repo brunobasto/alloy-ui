@@ -49,6 +49,12 @@
     visibility: hidden;
 }
 
+.layout-builder-add-col-icon {
+    background-image: url(add-col-handle.png);
+    height: 24px;
+    width: 24px;
+}
+
 .layout-builder-move-cut-button.layout-builder-move-cut-row-button {
     border-radius: 50%;
     z-index: 1;

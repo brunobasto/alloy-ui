@@ -12,6 +12,7 @@ var ADD_COLUMN_ACTION = 'addColumn',
     CSS_RESIZE_COL_DRAGGABLE_BORDER = A.getClassName('layout', 'builder', 'resize', 'col', 'draggable', 'border'),
     CSS_RESIZE_COL_DRAGGABLE_HANDLE = A.getClassName('layout', 'builder', 'resize', 'col', 'draggable', 'handle'),
     CSS_RESIZE_COL_ENABLED = A.getClassName('layout', 'builder', 'resize', 'col', 'enabled'),
+    CSS_RESIZE_COL_ICON = A.getClassName('layout', 'builder', 'resize', 'col', 'icon'),
     MAX_SIZE = 12,
     SELECTOR_ROW = '.layout-row';
 
@@ -31,8 +32,9 @@ A.LayoutBuilderResizeCol.prototype = {
         '<div class="' + CSS_RESIZE_COL_BREAKPOINT_LINE + '" tabindex="8"></div></div>',
     TPL_RESIZE_COL_DRAGGABLE: '<div class="' + CSS_RESIZE_COL_DRAGGABLE + '">' +
         '<div class="' + CSS_RESIZE_COL_DRAGGABLE_BORDER + '"></div>' +
-        '<div class="' + CSS_RESIZE_COL_DRAGGABLE_HANDLE + '" tabindex="8">' +
-        '<span class="glyphicon glyphicon-resize-horizontal"></span></div></div>',
+        '<div class="' + CSS_RESIZE_COL_DRAGGABLE_HANDLE + ' ' + CSS_RESIZE_COL_ICON +
+        '" tabindex="8">' +
+        '</div></div>',
 
     /**
      * Keeps a reference for dragNode for keyboard purposes only.
