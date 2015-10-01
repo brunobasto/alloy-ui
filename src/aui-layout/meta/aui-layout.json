@@ -33,13 +33,6 @@
         ],
         "skinnable": true
     },
-    "aui-layout-builder-remove-col": {
-        "requires": [
-            "event-key",
-            "node-base"
-        ],
-        "skinnable": true
-    },
     "aui-layout-builder-resize-col": {
         "requires": [
             "dd-constrain",
