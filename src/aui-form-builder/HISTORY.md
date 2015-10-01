@@ -4,6 +4,7 @@
 
 ## @VERSION@
 
+* [AUI-2016](https://issues.liferay.com/browse/AUI-2016) Remove column delete button from From Builder
 * [AUI-2018](https://issues.liferay.com/browse/AUI-2018) Create a template variable to form builder modal head content
 * [AUI-2017](https://issues.liferay.com/browse/AUI-2017) Buttons in fields settings modal should follow bootstrap visual patterns
 * [AUI-2000](https://issues.liferay.com/browse/AUI-2000) Add borders as separators on the grid

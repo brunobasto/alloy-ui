@@ -179,7 +179,7 @@ A.LayoutCol = A.Base.create('layout-col', A.Base, [], {
          */
         removable: {
             validator: A.Lang.isBoolean,
-            value: true
+            value: false
         },
 
         /**
