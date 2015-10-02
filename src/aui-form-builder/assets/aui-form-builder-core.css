@@ -183,6 +183,8 @@
 .form-builder-layout .layout-row {
     border-top: 1px dotted transparent;
     border-bottom: 1px dotted transparent;
+    margin: 0;
+    background: #fff;
 }
 
 .form-builder-layout .layout-row .layout-builder-resize-col-draggable {
@@ -199,14 +201,8 @@
     border-bottom-color: rgb(164, 179, 191);
 }
 
-.form-builder-layout .layout-row {
-    margin: 0;
-}
-
 .form-builder-layout .layout-row .col {
-    background-color: #fff;
     min-height: 260px;
-    padding: 0;
 }
 
 .form-builder-layout .layout-row .col:last-child {

@@ -1,7 +1,3 @@
-.layout-builder-resize-col-enabled .layout-row {
-    position: relative;
-}
-
 .layout-builder-resize-col-enabled .col:not(:last-child) {
     border-right: none;
 }
