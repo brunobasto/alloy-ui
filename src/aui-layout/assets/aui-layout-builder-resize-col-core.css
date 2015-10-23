@@ -24,10 +24,16 @@
     width: 10px;
 }
 
+.layout-builder-add-col-icon {
+    background-image: url(add-col-handle.png);
+    height: 24px;
+    width: 24px;
+}
+
 .layout-builder-resize-col-draggable-handle {
     cursor: col-resize;
     font-size: 18px;
-    margin-top: -9px;
+    margin: -9px 0 0 -3px;
     position: absolute;
     top: 50%;
 }

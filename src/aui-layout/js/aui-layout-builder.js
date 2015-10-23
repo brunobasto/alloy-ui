@@ -53,9 +53,11 @@ A.LayoutBuilder = A.Base.create('layout-builder', A.Base, [
         layout.addTarget(this);
 
         this._eventHandles = [
-            this.after('layoutChange', A.bind(this._afterLayoutChange, this))
+            this.after('layoutChange', A.bind(this._afterLayoutChange, this)),
+            this._layoutContainer.on('mouseleave', A.bind(this._onMouseLeave, this))
         ];
 
+        this._layoutContainer.delegate('mouseenter', this._onMouseEnter, '.col', this);
         layout.draw(this._layoutContainer);
 
         this._layoutContainer.unselectable();
@@ -106,6 +108,52 @@ A.LayoutBuilder = A.Base.create('layout-builder', A.Base, [
             this._layoutContainer = A.Node.create(TPL_LAYOUT_CONTAINER);
             container.prepend(this._layoutContainer);
         }
+    },
+
+    /**
+     *
+     *
+     * @method _onMouseEnter
+     * @param {EventFacade} event
+     * @protected
+     */
+    _onMouseEnter: function (event) {
+        var currentCol = event.currentTarget.getData('layout-col'),
+            currentRow = event.currentTarget.ancestor('.layout-row').getData('layout-row'),
+            iconQuantity = event.currentTarget.ancestor('.layout-row').all('.layout-builder-resize-col-icon').size(),
+            currentColIndex;
+
+        this._layoutContainer.all('.layout-builder-resize-col-icon').removeClass('hidden');
+        this._layoutContainer.all('.layout-builder-resize-col-icon').addClass('hidden');
+
+        currentColIndex = currentRow.get('cols').indexOf(currentCol);
+
+        if (iconQuantity === 2) {
+            event.currentTarget.ancestor('.layout-row').all('.layout-builder-resize-col-icon').removeClass('hidden');
+        }
+        else if (currentColIndex === 0) {
+            event.currentTarget.ancestor('.layout-row').all('.layout-builder-resize-col-icon').item(currentColIndex).removeClass('hidden');
+            event.currentTarget.ancestor('.layout-row').all('.layout-builder-resize-col-icon').item(2).removeClass('hidden');
+        }
+        else if (currentColIndex === (event.currentTarget.ancestor('.layout-row').all('.layout-builder-resize-col-icon').size() - 2)) {
+            event.currentTarget.ancestor('.layout-row').all('.layout-builder-resize-col-icon').item(currentColIndex + 1).removeClass('hidden');
+            event.currentTarget.ancestor('.layout-row').all('.layout-builder-resize-col-icon').item(1).removeClass('hidden');
+        }
+        else {
+            event.currentTarget.ancestor('.layout-row').all('.layout-builder-resize-col-icon').item(currentColIndex + 1).removeClass('hidden');
+            event.currentTarget.ancestor('.layout-row').all('.layout-builder-resize-col-icon').item(currentColIndex + 2).removeClass('hidden');
+        }
+    },
+
+    /**
+     *
+     *
+     * @method _onMouseLeave
+     * @param {EventFacade} event
+     * @protected
+     */
+    _onMouseLeave: function () {
+        this._layoutContainer.all('.layout-builder-resize-col-icon').addClass('hidden');
     }
 }, {
     /**
