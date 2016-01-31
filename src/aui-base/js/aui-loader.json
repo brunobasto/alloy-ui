@@ -1321,6 +1321,7 @@
             "dd-drag",
             "dd-drop",
             "dd-proxy",
+            "dd-scroll",
             "aui-node",
             "aui-component"
         ]
@@ -1357,7 +1358,8 @@
     },
     "aui-surface-screen-html": {
         "requires": [
-            "io",
+            "aui-base",
+            "aui-io-request",
             "aui-promise",
             "aui-surface-screen",
             "aui-url"

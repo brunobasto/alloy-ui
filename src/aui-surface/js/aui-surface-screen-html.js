@@ -15,7 +15,7 @@ A.HTMLScreen = A.Base.create('htmlScreen', A.Screen, [], {
      */
     abortRequest: function() {
         if (this._request) {
-            this._request.abort();
+            this._request.stop();
         }
     },
 
@@ -80,10 +80,10 @@ A.HTMLScreen = A.Base.create('htmlScreen', A.Screen, [], {
                     },
                     method: instance.get('method'),
                     on: {
-                        failure: function(id, response) {
+                        failure: function(id, obj, response) {
                             promise.cancel(response.responseText);
                         },
-                        success: function(id, response) {
+                        success: function(id, obj, response) {
                             var frag = A.Node.create('<div/>');
                             frag.append(response.responseText);
                             instance._setScreenTitleFromFragment(frag);
@@ -100,7 +100,7 @@ A.HTMLScreen = A.Base.create('htmlScreen', A.Screen, [], {
                     params.cache = false;
                 }
 
-                instance._request = A.io(path, params);
+                instance._request = A.io.request(path, params);
             },
             function() {
                 instance.abortRequest();
