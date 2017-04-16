@@ -1,0 +1,22 @@
+{
+    "name": "aui-accessible-dd",
+    "builds": {
+        "aui-accessible-dd-delegate": {
+            "jsfiles": [
+                "js/aui-accessible-dd-delegate.js"
+            ]
+        },
+
+        "aui-accessible-dd-drag": {
+            "jsfiles": [
+                "js/aui-accessible-dd-drag.js"
+            ]
+        },
+
+        "aui-accessible-dd-drop": {
+            "jsfiles": [
+                "js/aui-accessible-dd-drop.js"
+            ]
+        }
+    }
+}

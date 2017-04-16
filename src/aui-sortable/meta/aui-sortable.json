@@ -25,7 +25,8 @@
             "dd-proxy",
             "dd-scroll",
             "aui-node",
-            "aui-component"
+            "aui-component",
+            "aui-accessible-dd"
         ]
     }
 }
