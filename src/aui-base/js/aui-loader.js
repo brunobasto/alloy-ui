@@ -58,12 +58,13 @@ Y.mix(YUI.Env[Y.version].modules, {
     },
     "aui-alert": {
         "requires": [
-            "timers",
-            "widget",
-            "widget-stdmod",
+            "aui-aria",
             "aui-classnamemanager",
             "aui-widget-cssclass",
-            "aui-widget-transition"
+            "aui-widget-transition",
+            "timers",
+            "widget",
+            "widget-stdmod"
         ],
         "skinnable": true
     },
@@ -88,6 +89,7 @@ Y.mix(YUI.Env[Y.version].modules, {
             "aui-aria",
             "aui-node",
             "aui-component",
+            "node-event-html5",
             "querystring-stringify-simple"
         ],
         "skinnable": true
@@ -175,9 +177,11 @@ Y.mix(YUI.Env[Y.version].modules, {
     "aui-carousel": {
         "requires": [
             "anim",
-            "node-event-delegate",
+            "aui-event",
             "aui-image-viewer-base",
-            "aui-image-viewer-slideshow"
+            "aui-image-viewer-slideshow",
+            "node-event-delegate",
+            "node-focusmanager"
         ],
         "skinnable": true
     },
@@ -209,6 +213,7 @@ Y.mix(YUI.Env[Y.version].modules, {
     },
     "aui-char-counter": {
         "requires": [
+            "aui-aria",
             "aui-node",
             "aui-event-input",
             "aui-component"
@@ -410,28 +415,29 @@ Y.mix(YUI.Env[Y.version].modules, {
     },
     "aui-datepicker": {
         "requires": [
-            "calendar",
+            "aui-aria",
+            "aui-datepicker-delegate",
+            "aui-datepicker-popover",
             "base",
             "base-build",
-            "aui-datepicker-delegate",
-            "aui-datepicker-popover"
+            "calendar"
         ],
         "skinnable": true
     },
     "aui-datepicker-delegate": {
         "requires": [
-            "node-event-delegate",
-            "event-focus",
+            "aui-datatype-date-parse",
             "aui-event-input",
-            "aui-datatype-date-parse"
+            "event-focus",
+            "node-event-delegate"
         ]
     },
     "aui-datepicker-native": {
         "requires": [
-            "base",
-            "base-build",
+            "aui-datepicker-delegate",
             "aui-node-base",
-            "aui-datepicker-delegate"
+            "base",
+            "base-build"
         ]
     },
     "aui-datepicker-popover": {
@@ -443,7 +449,7 @@ Y.mix(YUI.Env[Y.version].modules, {
     "aui-debounce": {},
     "aui-diagram-builder": {
         "requires": [
-            "overlay",
+            "aui-aria",
             "aui-map",
             "aui-property-builder",
             "aui-diagram-builder-connector",
@@ -454,7 +460,8 @@ Y.mix(YUI.Env[Y.version].modules, {
             "aui-diagram-node-join",
             "aui-diagram-node-start",
             "aui-diagram-node-state",
-            "aui-diagram-node-task"
+            "aui-diagram-node-task",
+            "overlay"
         ],
         "skinnable": true
     },
@@ -471,6 +478,7 @@ Y.mix(YUI.Env[Y.version].modules, {
     },
     "aui-diagram-node": {
         "requires": [
+            "aui-aria",
             "aui-diagram-node-manager-base",
             "escape",
             "overlay"
@@ -806,6 +814,7 @@ Y.mix(YUI.Env[Y.version].modules, {
     "aui-image-viewer-base": {
         "requires": [
             "anim",
+            "aui-aria",
             "aui-classnamemanager",
             "aui-node",
             "aui-widget-responsive",
@@ -1497,32 +1506,33 @@ Y.mix(YUI.Env[Y.version].modules, {
     },
     "aui-tooltip-base": {
         "requires": [
-            "escape",
+            "aui-aria",
+            "aui-classnamemanager",
+            "aui-component",
+            "aui-debounce",
+            "aui-node-base",
+            "aui-widget-cssclass",
+            "aui-widget-toggle",
+            "aui-widget-transition",
+            "aui-widget-trigger",
+            "aui-widget-position-align-suggestion",
             "event-hover",
+            "event-resize",
+            "escape",
             "widget",
             "widget-autohide",
             "widget-position",
             "widget-position-align",
             "widget-position-constrain",
             "widget-stack",
-            "widget-stdmod",
-            "aui-classnamemanager",
-            "aui-component",
-            "aui-debounce",
-            "aui-widget-cssclass",
-            "aui-widget-toggle",
-            "aui-widget-transition",
-            "aui-widget-trigger",
-            "aui-widget-position-align-suggestion",
-            "aui-node-base",
-            "event-resize"
+            "widget-stdmod"
         ],
         "skinnable": true
     },
     "aui-tooltip-delegate": {
         "requires": [
-            "node-event-delegate",
-            "aui-tooltip-base"
+            "aui-tooltip-base",
+            "node-event-delegate"
         ]
     },
     "aui-tree": {
@@ -1577,8 +1587,10 @@ Y.mix(YUI.Env[Y.version].modules, {
     },
     "aui-undo-redo": {
         "requires": [
+            "aui-base",
             "base",
             "base-build",
+            "event-key",
             "promise"
         ]
     },
@@ -1666,4 +1678,4 @@ Y.mix(YUI.Env[Y.version].modules, {
         ]
     }
 });
-YUI.Env[Y.version].md5 = 'b334dd0064fccae5fc71cc8c33a133ee';
+YUI.Env[Y.version].md5 = '7d87596f3b5039325a6e2336d1245237';

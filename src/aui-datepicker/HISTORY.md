@@ -4,7 +4,8 @@
 
 ## @VERSION@
 
-No registries yet.
+* [AUI-1353](https://issues.liferay.com/browse/AUI-1353) Make aui-datepicker accessible
+* [AUI-1851](https://issues.liferay.com/browse/AUI-1851) Datepicker - Uncaught TypeError: Cannot read property 'getData' of undefined
 
 ## [3.1.0](https://github.com/liferay/alloy-ui/releases/tag/3.1.0)
 
